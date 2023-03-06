@@ -2,15 +2,17 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
+import routes from '../routes.js';
 
 function LoginForm() {
   const formik = useFormik({
     initialValues: {
-      nickname: '',
+      username: '',
       password: '',
     },
     validationSchema: Yup.object({
-      nickname: Yup.string('Required')
+      username: Yup.string('Required')
         .min(3, 'Too Short!')
         .max(15, 'Too Long!')
         .required('Required'),
@@ -19,8 +21,15 @@ function LoginForm() {
         .max(15, 'Too Long!')
         .required('Required'),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const res = await axios.post(routes.loginPath(), values);
+        const user = res.data;
+        console.log(user);
+        localStorage.setItem(user.username, JSON.stringify(user.token));
+      } catch (errors) {
+        console.log(errors);
+      }
     },
   });
   return (
@@ -28,20 +37,20 @@ function LoginForm() {
       <h1 className="text-center mb-4">Login</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control
-          id="nickname"
-          name="nickname"
+          id="username"
+          name="username"
           type="text"
           className="form-control"
           required
-          placeholder="Your nickname"
-          autocomplite="nickname"
+          placeholder="Your username"
+          autocomplite="username"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.nickname}
+          value={formik.values.username}
         />
-        <Form.Label htmlFor="nickname" className="form-label">Your nickname</Form.Label>
-        {/* { formik.touched.nickname && formik.errors.nickname ? (
-          <div>{ formik.errors.nickname }</div>) : null } */}
+        <Form.Label htmlFor="username" className="form-label">Your username</Form.Label>
+        {/* { formik.touched.username && formik.errors.username ? (
+          <div>{ formik.errors.username }</div>) : null } */}
       </Form.Group>
       <Form.Group className="form-floating mb-3">
         <Form.Control
