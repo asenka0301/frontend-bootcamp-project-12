@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 
 function Nav() {
   return (
-    <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+    <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
       <Container>
         <Navbar.Brand href="/">
           Hexlet Chat

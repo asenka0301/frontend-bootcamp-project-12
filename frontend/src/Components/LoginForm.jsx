@@ -24,7 +24,7 @@ function LoginForm() {
     },
   });
   return (
-    <Form onSubmit={formik.handleSubmit} className="col-12 col-sm-3 mt-3 mt-mb-0">
+    <Form onSubmit={formik.handleSubmit} className="col-6 col-md-3 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">Login</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control

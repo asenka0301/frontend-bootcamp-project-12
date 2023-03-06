@@ -4,25 +4,26 @@
   box-sizing: border-box;
 }
 
-html,
-body,
+body {
+  height: 100vh;
+}
 #root {
   height: 100%;
-  background-color: var(--bg-color);
+}
+main {
+  width: 100%;
+  height: calc(100% - 56px);
 }
 
-main {
-  height: calc(100% - 56px);
-  width: 100%;
+.loginContainer {
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 50px;
 }
 
-.logoContainer {
-  margin-top: 100px;
-}
 
 .btn-submit {
   width: 100%;
@@ -40,3 +41,4 @@ main {
   background-color: #3ba58b;
   color: #fff;
 }
+/* https://github.com/mdyeates/my-portfolio/blob/main/src/pages/portfolio/Portfolio.js */
