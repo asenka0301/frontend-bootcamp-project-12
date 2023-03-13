@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import routes from '../routes.js';
 import useAuth from '../hooks/index';
 import chatLogo from '../Images/chat-logo.svg';
@@ -18,14 +18,6 @@ function LoginPage() {
   const inputRef = useRef();
   const navigate = useNavigate();
   const [authFailed, setAuthFailed] = useState(false);
-
-  useEffect(() => {
-    inputRef.current.focus();
-    const result = localStorage.getItem('admin') !== null;
-    if (result) {
-      navigate('/');
-    }
-  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -45,10 +37,12 @@ function LoginPage() {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const res = await axios.post(routes.loginPath(), values);
-        auth.logIn();
-        localStorage.setItem(res.data.username, JSON.stringify(res.data));
-        navigate('/');
+        const response = await axios.post(routes.loginPath(), values);
+        if (response.status === 200) {
+          localStorage.setItem('token', response.data.token);
+          auth.logIn();
+          navigate('/');
+        }
       } catch (errors) {
         formik.setSubmitting(false);
         if (errors.isAxiosError && errors.response.status === 401) {
@@ -60,6 +54,15 @@ function LoginPage() {
       }
     },
   });
+
+  if (auth.loggedIn) {
+    return <Navigate to="/" />;
+  }
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <main className="main">
       <div className="loginContainer">
