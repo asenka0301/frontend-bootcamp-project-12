@@ -8,11 +8,12 @@ import {
   Routes,
   Route,
   Navigate,
+  Link,
 } from 'react-router-dom';
+import { Button, Container, Navbar } from 'react-bootstrap';
 import MainPage from './Pages/MainPage';
 import LoginPage from './Components/LoginPage';
 import NotFoundPage from './Pages/NotFoundPage';
-import Nav from './Components/Nav';
 import AuthContext from './contexts/index';
 import useAuth from './hooks';
 
@@ -22,8 +23,12 @@ function AuthProvider({ children }) {
   const logIn = () => {
     setLoggedIn(true);
   };
+  const logOut = () => {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+  };
 
-  const foo = useMemo(() => ({ loggedIn, logIn }), [loggedIn]);
+  const foo = useMemo(() => ({ loggedIn, logIn, logOut }), [loggedIn]);
 
   return (
     <AuthContext.Provider value={foo}>
@@ -39,11 +44,28 @@ function ChatRoute({ children }) {
   );
 }
 
+function AuthButton() {
+  const auth = useAuth();
+
+  return (
+    auth.loggedIn
+      ? <Button onClick={auth.logOut}>Log out</Button>
+      : <Button as={Link} to="/login">Log in</Button>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Nav />
+        <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
+          <Container>
+            <Navbar.Brand as={Link} to="/">
+              Hexlet Chat
+            </Navbar.Brand>
+            <AuthButton />
+          </Container>
+        </Navbar>
         <Routes>
           <Route
             path="/"
