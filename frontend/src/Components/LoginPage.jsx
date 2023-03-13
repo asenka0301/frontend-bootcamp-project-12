@@ -39,7 +39,7 @@ function LoginPage() {
       try {
         const response = await axios.post(routes.loginPath(), values);
         if (response.status === 200) {
-          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('token', JSON.stringify(response.data));
           auth.logIn();
           navigate('/');
         }

@@ -11,7 +11,7 @@ import {
   Link,
 } from 'react-router-dom';
 import { Button, Container, Navbar } from 'react-bootstrap';
-import MainPage from './Pages/MainPage';
+import ChatPage from './Pages/ChatPage';
 import LoginPage from './Components/LoginPage';
 import NotFoundPage from './Pages/NotFoundPage';
 import AuthContext from './contexts/index';
@@ -71,7 +71,7 @@ function App() {
             path="/"
             element={(
               <ChatRoute>
-                <MainPage />
+                <ChatPage />
               </ChatRoute>
             )}
           />
