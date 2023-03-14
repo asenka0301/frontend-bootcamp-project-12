@@ -50,7 +50,7 @@ function AuthButton() {
   return (
     auth.loggedIn
       ? <Button onClick={auth.logOut}>Log out</Button>
-      : <Button as={Link} to="/login">Log in</Button>
+      : null
   );
 }
 
