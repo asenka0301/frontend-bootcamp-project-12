@@ -22,11 +22,17 @@ function ChatPage() {
 
   useEffect(() => {
     const fetchContent = async () => {
-      const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
-      const { channels, messages, currentChannelId } = data;
-      dispatch(channelsAction.addChannels(channels));
-      dispatch(messagesActions.addMessages(messages));
-      setActiveChannelId(currentChannelId);
+      try {
+        const response = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+        if (response.status === 200) {
+          const { channels, messages, currentChannelId } = response.data;
+          dispatch(channelsAction.addChannels(channels));
+          dispatch(messagesActions.addMessages(messages));
+          setActiveChannelId(currentChannelId);
+        }
+      } catch (errors) {
+        console.log(errors);
+      }
     };
     fetchContent();
   }, []);
