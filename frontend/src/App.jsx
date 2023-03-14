@@ -11,9 +11,9 @@ import {
   Link,
 } from 'react-router-dom';
 import { Button, Container, Navbar } from 'react-bootstrap';
-import ChatPage from './Pages/ChatPage';
+import ChatPage from './Components/ChatPage';
 import LoginPage from './Components/LoginPage';
-import NotFoundPage from './Pages/NotFoundPage';
+import NotFoundPage from './Components/NotFoundPage';
 import AuthContext from './contexts/index';
 import useAuth from './hooks';
 
