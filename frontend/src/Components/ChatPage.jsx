@@ -12,10 +12,10 @@ import { actions as messagesActions, selectors as messagesSelectors } from '../s
 const socket = io();
 
 function getAuthHeader() {
-  const token = JSON.parse(localStorage.getItem('token'));
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
-  if (token) {
-    return { Authorization: `Bearer ${token.token}` };
+  if (userData) {
+    return { Authorization: `Bearer ${userData.token}` };
   }
   return {};
 }

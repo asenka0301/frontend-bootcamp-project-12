@@ -18,7 +18,7 @@ import AuthContext from './contexts/index';
 import useAuth from './hooks';
 
 function AuthProvider({ children }) {
-  const initialState = Boolean(localStorage.getItem('token'));
+  const initialState = Boolean(localStorage.getItem('userData'));
   const [loggedIn, setLoggedIn] = useState(initialState);
   const logIn = () => {
     setLoggedIn(true);
