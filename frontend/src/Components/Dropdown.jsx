@@ -71,7 +71,7 @@ function Dropdown(props) {
         onClick={toggleMenu}
         ref={dropDownRef}
       >
-        <span className="visually-hidden">Управление каналом</span>
+        <span className="visually-hidden">Channel control</span>
       </button>
       <div
         aria-labelledby="react-aria5503719851-1"
@@ -99,6 +99,7 @@ function Dropdown(props) {
           Delete
         </button>
         <button
+          id={currentChannel.id}
           data-rr-ui-dropdown-item
           type="button"
           className="dropdown-item"

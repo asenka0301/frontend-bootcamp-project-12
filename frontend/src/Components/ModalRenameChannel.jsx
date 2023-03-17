@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
@@ -11,7 +11,6 @@ function ModalRenameChannel(props) {
   const inputRef = useRef();
   // const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
-
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -21,12 +20,18 @@ function ModalRenameChannel(props) {
       name: Yup
         .string()
         .required('Required field')
+        .min(3, 'From 3 to 20 characters')
+        .max(20, 'From 3 to 20 characters')
         .notOneOf((channels).map((channel) => channel.name), 'Must be unique'),
     }),
     onSubmit: (values) => {
       console.log(values);
     },
   });
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <>

@@ -166,7 +166,14 @@ function ChatPage() {
           </div>
         </div>
       </div>
-      { showModal && <ChannelModal showModal={showModal} setShowModal={setShowModal} /> }
+      { showModal
+      && (
+        <ChannelModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          setActiveChannelId={setActiveChannelId}
+        />
+      )}
       { deleteChannelModal && <ModalDeleteChannel setDeleteChannelModal={setDeleteChannelModal} />}
       { renameChannelModal && <ModalRenameChannel setRenameChannelModal={setRenameChannelModal} />}
     </>

@@ -10,7 +10,7 @@ import { actions as channelsAction, selectors as channelsSelectors } from '../sl
 const socket = io();
 
 function ChannelModal(props) {
-  const { setShowModal } = props;
+  const { setShowModal, setActiveChannelId } = props;
   const inputRef = useRef();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
@@ -31,6 +31,7 @@ function ChannelModal(props) {
       socket.emit('newChannel', { name: values.name, username: currentUser }, (response) => {
         if (response.status === 'ok') {
           socket.on('newChannel', (payload) => {
+            setActiveChannelId(payload.id);
             dispatch(channelsAction.addChannel(payload));
           });
           setShowModal(false);
