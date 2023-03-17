@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
 import {
@@ -24,7 +23,7 @@ function AuthProvider({ children }) {
     setLoggedIn(true);
   };
   const logOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
     setLoggedIn(false);
   };
 
