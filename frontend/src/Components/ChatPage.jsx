@@ -2,11 +2,15 @@ import axios from 'axios';
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
 import routes from '../routes';
 import ChannelModal from './ChannelModal';
+import Dropdown from './Dropdown';
+import ModalDeleteChannel from './ModalDeleteChannel';
+import ModalRenameChannel from './ModalRenameChannel';
 
-import { actions as channelsAction, selectors as channelsSelectors } from '../slices/channelsSlice';
+import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
 import { actions as messagesActions, selectors as messagesSelectors } from '../slices/messagesSlice';
 
 const socket = io();
@@ -25,6 +29,8 @@ function ChatPage() {
   const [activeChannelId, setActiveChannelId] = useState(null);
   const [value, setValue] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [deleteChannelModal, setDeleteChannelModal] = useState(false);
+  const [renameChannelModal, setRenameChannelModal] = useState(false);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -32,7 +38,7 @@ function ChatPage() {
         const response = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
         if (response.status === 200) {
           const { channels, messages, currentChannelId } = response.data;
-          dispatch(channelsAction.addChannels(channels));
+          dispatch(channelsActions.addChannels(channels));
           dispatch(messagesActions.addMessages(messages));
           setActiveChannelId(currentChannelId);
         }
@@ -64,6 +70,43 @@ function ChatPage() {
     setValue('');
   }
 
+  function displayChannels(data) {
+    return data.map((item) => {
+      if (!item.removable) {
+        return (
+          <li key={item.id} className="nav-item w-100">
+            <button
+              type="button"
+              className={cn(
+                'w-100',
+                'rounded-0',
+                'text-start',
+                'btn',
+                {
+                  'btn-secondary': item.id === currentChannel.id,
+                },
+              )}
+              onClick={() => setActiveChannelId(item.id)}
+            >
+              <span className="me-1">#</span>
+              {item.name}
+            </button>
+          </li>
+        );
+      } return (
+        <li key={item.id} className="nav-item w-100">
+          <Dropdown
+            item={item}
+            currentChannel={currentChannel}
+            setActiveChannelId={setActiveChannelId}
+            setDeleteChannelModal={setDeleteChannelModal}
+            setRenameChannelModal={setRenameChannelModal}
+          />
+        </li>
+      );
+    });
+  }
+
   return (
     <>
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -80,26 +123,7 @@ function ChatPage() {
               </button>
             </div>
             <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-              {currentChannel && channel.map((item) => (
-                <li key={item.id} className="nav-item w-100">
-                  <button
-                    type="button"
-                    className={cn(
-                      'w-100',
-                      'rounded-0',
-                      'text-start',
-                      'btn',
-                      {
-                        'btn-secondary': item.id === currentChannel.id,
-                      },
-                    )}
-                    onClick={() => setActiveChannelId(item.id)}
-                  >
-                    <span className="me-1">#</span>
-                    {item.name}
-                  </button>
-                </li>
-              )) }
+              {currentChannel && displayChannels(channel)}
             </ul>
           </div>
           <div className="col p-0 h-100">
@@ -119,7 +143,7 @@ function ChatPage() {
                   .filter((item) => item.channelId === activeChannelId)
                   .map((el) => (
                     <div key={el.id} className="text-break mb-2">
-                      <b>admin</b>
+                      <b>{JSON.parse(localStorage.getItem('userData')).username}</b>
                       :
                       {` ${el.body}`}
                     </div>
@@ -143,6 +167,8 @@ function ChatPage() {
         </div>
       </div>
       { showModal && <ChannelModal showModal={showModal} setShowModal={setShowModal} /> }
+      { deleteChannelModal && <ModalDeleteChannel setDeleteChannelModal={setDeleteChannelModal} />}
+      { renameChannelModal && <ModalRenameChannel setRenameChannelModal={setRenameChannelModal} />}
     </>
   );
 }
