@@ -24,6 +24,8 @@ function ChannelModal(props) {
       name: Yup
         .string()
         .required('Required field')
+        .min(3, 'From 3 to 20 characters')
+        .max(20, 'From 3 to 20 characters')
         .notOneOf((channels).map((channel) => channel.name), 'Must be unique'),
     }),
     onSubmit: (values) => {

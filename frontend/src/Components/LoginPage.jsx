@@ -25,13 +25,13 @@ function LoginPage() {
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string('Required')
-        .min(3, 'Too Short!')
-        .max(15, 'Too Long!')
+      username: Yup.string('')
+        .min(3, 'From 3 to 20 characters')
+        .max(20, 'From 3 to 20 characters')
         .required('Required'),
       password: Yup.string()
-        .min(3, 'Too Short!')
-        .max(15, 'Too Long!')
+        .min(3, 'From 3 to 20 characters')
+        .max(20, 'From 3 to 20 characters')
         .required('Required'),
     }),
     onSubmit: async (values) => {
@@ -98,7 +98,7 @@ function LoginPage() {
                 required
               />
               <Form.Label htmlFor="password">Your password</Form.Label>
-              <Form.Control.Feedback type="invalid">the username or password is incorrect</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Invalid username or password</Form.Control.Feedback>
             </Form.Group>
             <Button type="submit" className="btn-submit">Login</Button>
           </Form>
