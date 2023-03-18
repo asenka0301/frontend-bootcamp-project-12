@@ -31,6 +31,7 @@ function ChatPage() {
   const [showModal, setShowModal] = useState(false);
   const [deleteChannelModal, setDeleteChannelModal] = useState(false);
   const [renameChannelModal, setRenameChannelModal] = useState(false);
+  const [clickedDropdown, setClickedDropdown] = useState(null);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -72,7 +73,7 @@ function ChatPage() {
 
   function displayChannels(data) {
     return data.map((item) => {
-      if (!item.removable) {
+      if (item.removable === false) {
         return (
           <li key={item.id} className="nav-item w-100">
             <button
@@ -101,6 +102,7 @@ function ChatPage() {
             setActiveChannelId={setActiveChannelId}
             setDeleteChannelModal={setDeleteChannelModal}
             setRenameChannelModal={setRenameChannelModal}
+            setClickedDropdown={setClickedDropdown}
           />
         </li>
       );
@@ -169,12 +171,19 @@ function ChatPage() {
       { showModal
       && (
         <ChannelModal
-          showModal={showModal}
           setShowModal={setShowModal}
           setActiveChannelId={setActiveChannelId}
         />
       )}
-      { deleteChannelModal && <ModalDeleteChannel setDeleteChannelModal={setDeleteChannelModal} />}
+      { deleteChannelModal
+      && (
+        <ModalDeleteChannel
+          clickedDropdown={clickedDropdown}
+          setDeleteChannelModal={setDeleteChannelModal}
+          activeChannelId={activeChannelId}
+          setActiveChannelId={setActiveChannelId}
+        />
+      )}
       { renameChannelModal && <ModalRenameChannel setRenameChannelModal={setRenameChannelModal} />}
     </>
   );

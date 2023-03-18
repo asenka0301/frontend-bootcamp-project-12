@@ -1,8 +1,39 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { io } from 'socket.io-client';
+import { actions as channelsActions } from '../slices/channelsSlice';
+import { selectors as messagesSelectors } from '../slices/messagesSlice';
+
+const socket = io();
 
 function ModalDeleteChannel(props) {
-  const { setDeleteChannelModal } = props;
+  const {
+    setDeleteChannelModal,
+    clickedDropdown,
+    activeChannelId,
+    setActiveChannelId,
+  } = props;
+  const dispatch = useDispatch();
+  const messages = useSelector(messagesSelectors.selectAll);
+  console.log(activeChannelId);
+  function deleteChannel() {
+    socket.emit('removeChannel', { id: clickedDropdown }, (response) => {
+      if (response.status === 'ok') {
+        socket.on('removeChannel', (payload) => {
+          if (payload.id === activeChannelId) {
+            setActiveChannelId(1);
+          }
+          dispatch(channelsActions.removeChannel(payload.id));
+        });
+      }
+    });
+  }
+
+  function deleteMessages() {
+    return messages.filter((message) => message.channelId !== clickedDropdown);
+  }
+
   return (
     <>
       <div className="fade modal-backdrop show" />
@@ -41,7 +72,16 @@ function ModalDeleteChannel(props) {
                 >
                   Cancel
                 </button>
-                <button type="button" className="btn btn-danger">Delete</button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => {
+                    deleteChannel();
+                    deleteMessages();
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </div>

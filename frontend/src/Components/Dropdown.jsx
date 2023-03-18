@@ -9,6 +9,7 @@ function Dropdown(props) {
     setActiveChannelId,
     setDeleteChannelModal,
     setRenameChannelModal,
+    setClickedDropdown,
   } = props;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((isOpen) => !isOpen);
@@ -68,7 +69,10 @@ function Dropdown(props) {
             'btn-secondary': item.id === currentChannel.id,
           },
         )}
-        onClick={toggleMenu}
+        onClick={() => {
+          setClickedDropdown(item.id);
+          toggleMenu();
+        }}
         ref={dropDownRef}
       >
         <span className="visually-hidden">Channel control</span>
