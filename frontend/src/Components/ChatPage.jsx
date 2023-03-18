@@ -184,7 +184,13 @@ function ChatPage() {
           setActiveChannelId={setActiveChannelId}
         />
       )}
-      { renameChannelModal && <ModalRenameChannel setRenameChannelModal={setRenameChannelModal} />}
+      { renameChannelModal
+      && (
+        <ModalRenameChannel
+          clickedDropdown={clickedDropdown}
+          setRenameChannelModal={setRenameChannelModal}
+        />
+      )}
     </>
   );
 }

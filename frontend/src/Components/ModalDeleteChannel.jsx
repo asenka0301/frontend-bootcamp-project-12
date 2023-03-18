@@ -18,7 +18,7 @@ function ModalDeleteChannel(props) {
   const messages = useSelector(messagesSelectors.selectAll);
 
   function deleteChannel() {
-    socket.emit('removeChannel', { id: clickedDropdown }, (response) => {
+    socket.emit('removeChannel', { id: clickedDropdown.id }, (response) => {
       if (response.status === 'ok') {
         socket.on('removeChannel', (payload) => {
           if (payload.id === activeChannelId) {
@@ -31,7 +31,7 @@ function ModalDeleteChannel(props) {
   }
 
   function deleteMessages() {
-    return messages.filter((message) => message.channelId !== clickedDropdown);
+    return messages.filter((message) => message.channelId !== clickedDropdown.id);
   }
 
   return (

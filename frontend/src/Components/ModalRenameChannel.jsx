@@ -2,18 +2,23 @@
 import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { selectors as channelsSelectors } from '../slices/channelsSlice';
+import { io } from 'socket.io-client';
+import { Form, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
+
+const socket = io();
 
 function ModalRenameChannel(props) {
-  const { setRenameChannelModal } = props;
+  const { setRenameChannelModal, clickedDropdown } = props;
   const inputRef = useRef();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+  const currentChannelName = clickedDropdown.name;
+
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: `${currentChannelName}`,
     },
 
     validationSchema: Yup.object({
@@ -25,7 +30,15 @@ function ModalRenameChannel(props) {
         .notOneOf((channels).map((channel) => channel.name), 'Must be unique'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      socket.emit('renameChannel', { id: clickedDropdown.id, name: values.name }, (response) => {
+        if (response.status === 'ok') {
+          socket.on('renameChannel', (payload) => {
+            dispatch(channelsActions
+              .updateChannel({ id: payload.id, changes: { name: payload.name } }));
+          });
+          setRenameChannelModal(false);
+        }
+      });
     },
   });
 
@@ -71,20 +84,17 @@ function ModalRenameChannel(props) {
                       ref={inputRef}
                       onChange={formik.handleChange}
                       value={formik.values.name}
+                      onFocus={() => inputRef.current.select()}
                       isInvalid={formik.touched.name && formik.errors.name}
                     />
                     <Form.Label htmlFor="name">Channel</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
                   </Form.Group>
                   <div className="d-flex justify-content-end">
-                    <button
-                      type="button"
-                      className="me-2 btn btn-secondary"
-                      onClick={() => setRenameChannelModal(false)}
-                    >
+                    <Button variant="secondary" className="me-2" onClick={() => setRenameChannelModal(false)}>
                       Cancel
-                    </button>
-                    <button type="submit" className="btn btn-primary">Send</button>
+                    </Button>
+                    <Button type="submit" variant="primary">Send</Button>
                   </div>
                 </div>
               </Form>

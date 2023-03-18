@@ -70,7 +70,7 @@ function Dropdown(props) {
           },
         )}
         onClick={() => {
-          setClickedDropdown(item.id);
+          setClickedDropdown(item);
           toggleMenu();
         }}
         ref={dropDownRef}
