@@ -6,7 +6,7 @@ import {
 } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate, Navigate } from 'react-router-dom';
 import routes from '../routes.js';
@@ -100,7 +100,7 @@ function LoginPage() {
               <Form.Label htmlFor="password">Your password</Form.Label>
               <Form.Control.Feedback type="invalid">Invalid username or password</Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit" className="btn-submit">Login</Button>
+            <button type="submit" className="btn-submit">Login</button>
           </Form>
         </fieldset>
         <footer>
