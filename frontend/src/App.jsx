@@ -14,6 +14,7 @@ import { Button, Container, Navbar } from 'react-bootstrap';
 import ChatPage from './Components/ChatPage';
 import LoginPage from './Components/LoginPage';
 import NotFoundPage from './Components/NotFoundPage';
+import SignUpPage from './Components/SignUpPage';
 import AuthContext from './contexts/index';
 import useAuth from './hooks';
 
@@ -76,6 +77,7 @@ function App() {
             )}
           />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
