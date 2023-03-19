@@ -22,10 +22,6 @@ body {
   margin-top: 50px;
 }
 
-/* .chat-container {
-  height: 800px;
-} */
-
 .btn-submit {
   width: 100%;
   background-color: #fff;
@@ -42,4 +38,12 @@ body {
   background-color: #3ba58b;
   color: #fff;
 }
-/* https://github.com/mdyeates/my-portfolio/blob/main/src/pages/portfolio/Portfolio.js */
+
+.btn:active,
+.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}
+
+.dropdown-toggle.btn-secondary:focus {
+  box-shadow: 0 0 0 0.25rem hsl(208deg 6% 54% / 50%);
+}
