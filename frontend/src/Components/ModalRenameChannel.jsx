@@ -10,11 +10,29 @@ import { actions as channelsActions, selectors as channelsSelectors } from '../s
 const socket = io();
 
 function ModalRenameChannel(props) {
-  const { setRenameChannelModal, clickedDropdown } = props;
+  const { setRenameChannelModal, clickedDropdown, renameChannelModal } = props;
   const inputRef = useRef();
+  const renameModalRef = useRef();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelName = clickedDropdown.name;
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (renameModalRef.current
+        && renameChannelModal && !renameModalRef.current.contains(event.target)) {
+        setRenameChannelModal(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [renameChannelModal]);
 
   const formik = useFormik({
     initialValues: {
@@ -42,10 +60,6 @@ function ModalRenameChannel(props) {
     },
   });
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
   return (
     <>
       <div className="fade modal-backdrop show" />
@@ -55,15 +69,10 @@ function ModalRenameChannel(props) {
         className="fade modal show"
         tabIndex="-1"
         style={{ display: 'block' }}
-        onClick={(e) => {
-          if (e.currentTarget === e.target) {
-            setRenameChannelModal(false);
-          }
-        }}
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
+          <div className="modal-content" ref={renameModalRef}>
             <div className="modal-header">
               <div className="modal-title h4">Rename channel</div>
               <button

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import cn from 'classnames';
 
 function Dropdown(props) {
@@ -14,18 +14,24 @@ function Dropdown(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((isOpen) => !isOpen);
   const dropDownRef = useRef();
+  const buttonDeleteRef = useRef();
+  const buttonRenameRef = useRef();
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (dropDownRef.current && isMenuOpen && !dropDownRef.current.contains(event.target)) {
-  //       setIsMenuOpen(false);
-  //     }
-  //   };
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, [isMenuOpen]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropDownRef.current
+        && isMenuOpen
+        && !dropDownRef.current.contains(event.target)
+        && !buttonDeleteRef.current.contains(event.target)
+        && !buttonRenameRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <div
@@ -46,6 +52,7 @@ function Dropdown(props) {
           'rounded-0',
           'text-start',
           'text-truncate',
+          'border-0',
           'btn',
           {
             'btn-secondary': item.id === currentChannel.id,
@@ -58,22 +65,23 @@ function Dropdown(props) {
       </button>
       <button
         type="button"
-        id="react-aria5503719851-1"
         aria-expanded={isMenuOpen}
         className={cn(
           'flex-grow-0',
           'dropdown-toggle',
           'dropdown-toggle-split',
+          'border-0',
           'btn',
           {
             'btn-secondary': item.id === currentChannel.id,
           },
         )}
+        ref={dropDownRef}
         onClick={() => {
           setClickedDropdown(item);
           toggleMenu();
         }}
-        ref={dropDownRef}
+
       >
         <span className="visually-hidden">Channel control</span>
       </button>
@@ -99,6 +107,7 @@ function Dropdown(props) {
             setDeleteChannelModal(true);
             toggleMenu();
           }}
+          ref={buttonDeleteRef}
         >
           Delete
         </button>
@@ -112,6 +121,7 @@ function Dropdown(props) {
             setRenameChannelModal(true);
             toggleMenu();
           }}
+          ref={buttonRenameRef}
         >
           Rename
         </button>

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { actions as channelsActions } from '../slices/channelsSlice';
@@ -9,13 +9,28 @@ const socket = io();
 
 function ModalDeleteChannel(props) {
   const {
+    deleteChannelModal,
     setDeleteChannelModal,
     clickedDropdown,
     activeChannelId,
     setActiveChannelId,
   } = props;
   const dispatch = useDispatch();
+  const deleteModalRef = useRef();
   const messages = useSelector(messagesSelectors.selectAll);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (deleteModalRef.current
+        && deleteChannelModal && !deleteModalRef.current.contains(event.target)) {
+        setDeleteChannelModal(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [deleteChannelModal]);
 
   function deleteChannel() {
     socket.emit('removeChannel', { id: clickedDropdown.id }, (response) => {
@@ -43,15 +58,10 @@ function ModalDeleteChannel(props) {
         className="fade modal show"
         tabIndex="-1"
         style={{ display: 'block' }}
-        onClick={(e) => {
-          if (e.currentTarget === e.target) {
-            setDeleteChannelModal(false);
-          }
-        }}
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
+          <div className="modal-content" ref={deleteModalRef}>
             <div className="modal-header">
               <div className="modal-title h4">Delete channel</div>
               <button
