@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import { actions as channelsActions } from '../slices/channelsSlice';
@@ -37,12 +38,16 @@ function ModalDeleteChannel(props) {
   function deleteChannel() {
     socket.emit('removeChannel', { id: clickedDropdown.id }, (response) => {
       if (response.status === 'ok') {
+        toast.success(`${t('channelDeleted')}`);
         socket.on('removeChannel', (payload) => {
           if (payload.id === activeChannelId) {
             setActiveChannelId(1);
           }
           dispatch(channelsActions.removeChannel(payload.id));
+          setDeleteChannelModal(false);
         });
+      } else {
+        toast.error(`${t('connectionError')}`);
       }
     });
   }

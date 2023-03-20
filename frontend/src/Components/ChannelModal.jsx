@@ -3,6 +3,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { io } from 'socket.io-client';
 import React, { useRef, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
@@ -11,12 +13,14 @@ import { actions as channelsAction, selectors as channelsSelectors } from '../sl
 const socket = io();
 
 function ChannelModal(props) {
-  const { setShowModal, setActiveChannelId } = props;
+  const {
+    setShowModal,
+    setActiveChannelId,
+  } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
-
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -34,11 +38,14 @@ function ChannelModal(props) {
       const currentUser = JSON.parse(localStorage.getItem('userData')).username;
       socket.emit('newChannel', { name: values.name, username: currentUser }, (response) => {
         if (response.status === 'ok') {
+          toast.success(`${t('channelCreated')}`);
           socket.on('newChannel', (payload) => {
             setActiveChannelId(payload.id);
             dispatch(channelsAction.addChannel(payload));
           });
           setShowModal(false);
+        } else {
+          toast.error(`${t('connectionError')}`);
         }
       });
     },
@@ -94,7 +101,9 @@ function ChannelModal(props) {
                   <div className="invalid-feedback" />
                   <div className="d-flex justify-content-end">
                     <button type="button" className="me-2 btn btn-secondary" onClick={() => setShowModal(false)}>{t('cancelButton')}</button>
-                    <button type="submit" className="btn btn-primary">{t('sendButton')}</button>
+                    <button type="submit" className="btn btn-primary">
+                      {t('sendButton')}
+                    </button>
                   </div>
                 </div>
               </Form>

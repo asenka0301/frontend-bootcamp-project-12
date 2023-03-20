@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { io } from 'socket.io-client';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -53,10 +54,13 @@ function ModalRenameChannel(props) {
       socket.emit('renameChannel', { id: clickedDropdown.id, name: values.name }, (response) => {
         if (response.status === 'ok') {
           socket.on('renameChannel', (payload) => {
+            toast.success(`${t('channelRenamed')}`);
             dispatch(channelsActions
               .updateChannel({ id: payload.id, changes: { name: payload.name } }));
           });
           setRenameChannelModal(false);
+        } else {
+          toast.error(`${t('connectionError')}`);
         }
       });
     },
@@ -86,7 +90,7 @@ function ModalRenameChannel(props) {
               />
             </div>
             <div className="modal-body">
-              <Form onSubmit={formik.handleSubmit}>
+              <Form onSubmit={formik.handleSubmit} disabled={!formik.isValid}>
                 <div>
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
