@@ -11,6 +11,7 @@ import {
   Link,
 } from 'react-router-dom';
 import { Button, Container, Navbar } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import ChatPage from './Components/ChatPage';
 import LoginPage from './Components/LoginPage';
 import NotFoundPage from './Components/NotFoundPage';
@@ -47,10 +48,11 @@ function ChatRoute({ children }) {
 
 function AuthButton() {
   const auth = useAuth();
+  const { t } = useTranslation();
 
   return (
     auth.loggedIn
-      ? <Button onClick={auth.logOut}>Log out</Button>
+      ? <Button onClick={auth.logOut}>{t('logOut')}</Button>
       : null
   );
 }

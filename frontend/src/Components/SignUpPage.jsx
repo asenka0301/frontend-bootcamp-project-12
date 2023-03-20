@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import { useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,27 +13,28 @@ function SignUpPage() {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isUserExists, setIsUserExists] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
-      passowrConfirmation: '',
+      passwordConfirmation: '',
     },
     validationSchema: Yup.object({
       username: Yup.string('')
-        .min(3, 'From 3 to 20 characters')
-        .max(20, 'From 3 to 20 characters')
-        .required('Required field'),
+        .min(3, `${t('usernameLength')}`)
+        .max(20, `${t('usernameLength')}`)
+        .required(`${t('requiredField')}`),
       password: Yup.string()
-        .min(3, 'At least 6 characters')
-        .required('Required field'),
-      passowrConfirmation: Yup.string()
-        .required('Password confirmation is a required field')
+        .min(3, `${t('passwordLength')}`)
+        .required(`${t('requiredField')}`),
+      passwordConfirmation: Yup.string()
+        .required(`${t('requiredField')}`)
         .oneOf(
           [Yup.ref('password'), null],
-          'Password confirmation does not match to password',
+          `${t('passwordConfirmationMessage')}`,
         ),
     }),
     onSubmit: async (values) => {
@@ -76,7 +78,7 @@ function SignUpPage() {
         </div>
         <fieldset disabled={formik.isSubmitting}>
           <Form onSubmit={formik.handleSubmit}>
-            <h1 className="text-center mb-4">Sign up</h1>
+            <h1 className="text-center mb-4">{t('signUp')}</h1>
             <Form.Group className="form-floating mb-3">
               <Form.Control
                 id="username"
@@ -89,7 +91,7 @@ function SignUpPage() {
                   || (formik.touched.username && formik.errors.username)}
                 ref={inputRef}
               />
-              <Form.Label htmlFor="username">Your username</Form.Label>
+              <Form.Label htmlFor="username">{t('username')}</Form.Label>
               <Form.Control.Feedback type="invalid">{isUserExists ? ' ' : formik.errors.username}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
@@ -104,25 +106,25 @@ function SignUpPage() {
                 isInvalid={isUserExists
                   || (formik.touched.password && formik.errors.password)}
               />
-              <Form.Label htmlFor="password">Your password</Form.Label>
+              <Form.Label htmlFor="password">{t('password')}</Form.Label>
               <Form.Control.Feedback type="invalid">{isUserExists ? '' : formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
                 type="password"
-                id="passowrConfirmation"
-                name="passowrConfirmation"
-                placeholder="passowrConfirmation"
+                id="passwordConfirmation"
+                name="passwordConfirmation"
+                placeholder="passwordConfirmation"
                 autoComplete="current-password"
                 onChange={formik.handleChange}
-                value={formik.values.passowrConfirmation}
+                value={formik.values.passwordConfirmation}
                 isInvalid={isUserExists
-                  || (formik.touched.passowrConfirmation && formik.errors.passowrConfirmation)}
+                  || (formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
               />
-              <Form.Label htmlFor="passowrConfirmation">Confirm your password</Form.Label>
-              <Form.Control.Feedback type="invalid">{isUserExists ? 'User already exists!' : formik.errors.passowrConfirmation}</Form.Control.Feedback>
+              <Form.Label htmlFor="passwordConfirmation">{t('passwordConfirmation')}</Form.Label>
+              <Form.Control.Feedback type="invalid">{isUserExists ? `${t('userExistsMessage')}` : formik.errors.passwordConfirmation}</Form.Control.Feedback>
             </Form.Group>
-            <button type="submit" className="btn-submit">Sign up</button>
+            <button type="submit" className="btn-submit">{t('signUp')}</button>
           </Form>
         </fieldset>
       </div>
