@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { io } from 'socket.io-client';
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import { actions as channelsAction, selectors as channelsSelectors } from '../slices/channelsSlice';
 
@@ -11,6 +12,7 @@ const socket = io();
 
 function ChannelModal(props) {
   const { setShowModal, setActiveChannelId } = props;
+  const { t } = useTranslation();
   const inputRef = useRef();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
@@ -23,10 +25,10 @@ function ChannelModal(props) {
     validationSchema: Yup.object({
       name: Yup
         .string()
-        .required('Required field')
-        .min(3, 'From 3 to 20 characters')
-        .max(20, 'From 3 to 20 characters')
-        .notOneOf((channels).map((channel) => channel.name), 'Must be unique'),
+        .required(`${'requiredField'}`)
+        .min(3, `${t('usernameLength')}`)
+        .max(20, `${t('usernameLength')}`)
+        .notOneOf((channels).map((channel) => channel.name), `${t('channelExistsMessage')}`),
     }),
     onSubmit: (values) => {
       const currentUser = JSON.parse(localStorage.getItem('userData')).username;
@@ -65,7 +67,7 @@ function ChannelModal(props) {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title h4">Добавить канал</div>
+              <div className="modal-title h4">{t('addChannel')}</div>
               <button
                 type="button"
                 aria-label="Close"
@@ -86,13 +88,13 @@ function ChannelModal(props) {
                       value={formik.values.name}
                       isInvalid={formik.touched.name && formik.errors.name}
                     />
-                    <Form.Label htmlFor="name">Имя канала</Form.Label>
+                    <Form.Label htmlFor="name">{t('channelName')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
                   </Form.Group>
                   <div className="invalid-feedback" />
                   <div className="d-flex justify-content-end">
-                    <button type="button" className="me-2 btn btn-secondary" onClick={() => setShowModal(false)}>Отменить</button>
-                    <button type="submit" className="btn btn-primary">Отправить</button>
+                    <button type="button" className="me-2 btn btn-secondary" onClick={() => setShowModal(false)}>{t('cancelButton')}</button>
+                    <button type="submit" className="btn btn-primary">{t('sendButton')}</button>
                   </div>
                 </div>
               </Form>

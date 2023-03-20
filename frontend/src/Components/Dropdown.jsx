@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 
 function Dropdown(props) {
@@ -16,6 +17,7 @@ function Dropdown(props) {
   const dropDownRef = useRef();
   const buttonDeleteRef = useRef();
   const buttonRenameRef = useRef();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -83,7 +85,7 @@ function Dropdown(props) {
         }}
 
       >
-        <span className="visually-hidden">Channel control</span>
+        <span className="visually-hidden">{t('channelControl')}</span>
       </button>
       <div
         aria-labelledby="react-aria5503719851-1"
@@ -109,7 +111,7 @@ function Dropdown(props) {
           }}
           ref={buttonDeleteRef}
         >
-          Delete
+          {t('deleteButton')}
         </button>
         <button
           id={currentChannel.id}
@@ -123,7 +125,7 @@ function Dropdown(props) {
           }}
           ref={buttonRenameRef}
         >
-          Rename
+          {t('renameButton')}
         </button>
       </div>
     </div>

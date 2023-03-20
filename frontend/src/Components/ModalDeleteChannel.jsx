@@ -2,6 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
+import { useTranslation } from 'react-i18next';
 import { actions as channelsActions } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
 
@@ -17,6 +18,7 @@ function ModalDeleteChannel(props) {
   } = props;
   const dispatch = useDispatch();
   const deleteModalRef = useRef();
+  const { t } = useTranslation();
   const messages = useSelector(messagesSelectors.selectAll);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ function ModalDeleteChannel(props) {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content" ref={deleteModalRef}>
             <div className="modal-header">
-              <div className="modal-title h4">Delete channel</div>
+              <div className="modal-title h4">{t('deleteChannel')}</div>
               <button
                 type="button"
                 aria-label="Close"
@@ -73,14 +75,14 @@ function ModalDeleteChannel(props) {
               />
             </div>
             <div className="modal-body">
-              <p className="lead">Sure?</p>
+              <p className="lead">{t('confirm')}</p>
               <div className="d-flex justify-content-end">
                 <button
                   type="button"
                   className="me-2 btn btn-secondary"
                   onClick={() => setDeleteChannelModal(false)}
                 >
-                  Cancel
+                  {t('cancelButton')}
                 </button>
                 <button
                   type="button"
@@ -90,7 +92,7 @@ function ModalDeleteChannel(props) {
                     deleteMessages();
                   }}
                 >
-                  Delete
+                  {t('deleteButton')}
                 </button>
               </div>
             </div>

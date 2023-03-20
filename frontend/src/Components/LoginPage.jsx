@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
 import useAuth from '../hooks/index';
 import chatLogo from '../Images/chat-logo.svg';
@@ -17,6 +18,7 @@ function LoginPage() {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState(false);
 
   const formik = useFormik({
@@ -26,13 +28,13 @@ function LoginPage() {
     },
     validationSchema: Yup.object({
       username: Yup.string('')
-        .min(3, 'From 3 to 20 characters')
-        .max(20, 'From 3 to 20 characters')
-        .required('Required'),
+        .min(3, `${t('usernameLength')}`)
+        .max(20, `${t('usernameLength')}`)
+        .required(`${t('requiredField')}`),
       password: Yup.string()
-        .min(3, 'From 3 to 20 characters')
-        .max(20, 'From 3 to 20 characters')
-        .required('Required'),
+        .min(3, `${t('usernameLength')}`)
+        .max(20, `${t('usernameLength')}`)
+        .required(`${t('requiredField')}`),
     }),
     onSubmit: async (values) => {
       setAuthFailed(false);
@@ -71,7 +73,7 @@ function LoginPage() {
         </div>
         <fieldset disabled={formik.isSubmitting}>
           <Form onSubmit={formik.handleSubmit}>
-            <h1 className="text-center mb-4">Login</h1>
+            <h1 className="text-center mb-4">{t('logIn')}</h1>
             <Form.Group className="form-floating mb-3">
               <Form.Control
                 id="username"
@@ -83,7 +85,7 @@ function LoginPage() {
                 isInvalid={authFailed}
                 ref={inputRef}
               />
-              <Form.Label htmlFor="username">Your username</Form.Label>
+              <Form.Label htmlFor="username">{t('nickname')}</Form.Label>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
@@ -97,15 +99,15 @@ function LoginPage() {
                 isInvalid={authFailed}
                 required
               />
-              <Form.Label htmlFor="password">Your password</Form.Label>
-              <Form.Control.Feedback type="invalid">Invalid username or password</Form.Control.Feedback>
+              <Form.Label htmlFor="password">{t('password')}</Form.Label>
+              <Form.Control.Feedback type="invalid">{t('logInFailed')}</Form.Control.Feedback>
             </Form.Group>
-            <button type="submit" className="btn-submit">Login</button>
+            <button type="submit" className="btn-submit">{t('logIn')}</button>
           </Form>
         </fieldset>
         <footer>
-          <span>No account? </span>
-          <a href="/signup"> Sign up</a>
+          <span>{t('noAccount')}</span>
+          <a href="/signup">{t('signUp')}</a>
         </footer>
       </div>
     </main>

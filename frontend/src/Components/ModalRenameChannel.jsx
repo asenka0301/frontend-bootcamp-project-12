@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { io } from 'socket.io-client';
+import { useTranslation } from 'react-i18next';
 import { Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
@@ -14,6 +15,7 @@ function ModalRenameChannel(props) {
   const inputRef = useRef();
   const renameModalRef = useRef();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelName = clickedDropdown.name;
 
@@ -74,7 +76,7 @@ function ModalRenameChannel(props) {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content" ref={renameModalRef}>
             <div className="modal-header">
-              <div className="modal-title h4">Rename channel</div>
+              <div className="modal-title h4">{t('renameChannel')}</div>
               <button
                 type="button"
                 aria-label="Close"
@@ -96,14 +98,14 @@ function ModalRenameChannel(props) {
                       onFocus={() => inputRef.current.select()}
                       isInvalid={formik.touched.name && formik.errors.name}
                     />
-                    <Form.Label htmlFor="name">Channel</Form.Label>
+                    <Form.Label htmlFor="name">{t('channel')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
                   </Form.Group>
                   <div className="d-flex justify-content-end">
                     <Button variant="secondary" className="me-2" onClick={() => setRenameChannelModal(false)}>
-                      Cancel
+                      {t('cancelButton')}
                     </Button>
-                    <Button type="submit" variant="primary">Send</Button>
+                    <Button type="submit" variant="primary">{t('sendButton')}</Button>
                   </div>
                 </div>
               </Form>
