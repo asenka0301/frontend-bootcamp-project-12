@@ -31,5 +31,9 @@ export default {
     deleteButton: 'Удалить',
     channelControl: 'Управлениие каналом',
     renameButton: 'Переименовать',
+    channelCreated: 'Канал создан',
+    connectionError: 'Ошибка сети',
+    channelDeleted: 'Канал удален',
+    channelRenamed: 'Канал переименован',
   },
 };
