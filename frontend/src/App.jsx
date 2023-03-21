@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 // import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import {
   BrowserRouter,
   Routes,
@@ -18,6 +19,16 @@ import NotFoundPage from './Components/NotFoundPage';
 import SignUpPage from './Components/SignUpPage';
 import AuthContext from './contexts/index';
 import useAuth from './hooks';
+
+const rollbarConfig = {
+  accessToken: 'e89f87479d264f0d912cda06016c4c56',
+  environment: 'testenv',
+};
+
+function TestError() {
+  const a = null;
+  return a.hello();
+}
 
 function AuthProvider({ children }) {
   const initialState = Boolean(localStorage.getItem('userData'));
@@ -59,31 +70,36 @@ function AuthButton() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
-          <Container>
-            <Navbar.Brand as={Link} to="/">
-              Hexlet Chat
-            </Navbar.Brand>
-            <AuthButton />
-          </Container>
-        </Navbar>
-        <Routes>
-          <Route
-            path="/"
-            element={(
-              <ChatRoute>
-                <ChatPage />
-              </ChatRoute>
-            )}
-          />
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <BrowserRouter>
+            <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
+              <Container>
+                <Navbar.Brand as={Link} to="/">
+                  Hexlet Chat
+                </Navbar.Brand>
+                <AuthButton />
+              </Container>
+            </Navbar>
+            <Routes>
+              <Route
+                path="/"
+                element={(
+                  <ChatRoute>
+                    <ChatPage />
+                  </ChatRoute>
+                )}
+              />
+              <Route path="*" element={<NotFoundPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+        <TestError />
+      </ErrorBoundary>
+    </Provider>
   );
 }
 
