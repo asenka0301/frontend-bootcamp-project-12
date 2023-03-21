@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 // import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
-import { Provider, ErrorBoundary } from '@rollbar/react';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import {
   BrowserRouter,
   Routes,
@@ -25,10 +25,10 @@ const rollbarConfig = {
   environment: 'testenv',
 };
 
-function TestError() {
-  const a = null;
-  return a.hello();
-}
+// function TestError() {
+//   const a = null;
+//   return a.hello();
+// }
 
 function AuthProvider({ children }) {
   const initialState = Boolean(localStorage.getItem('userData'));
@@ -70,7 +70,7 @@ function AuthButton() {
 
 function App() {
   return (
-    <Provider config={rollbarConfig}>
+    <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
           <BrowserRouter>
@@ -97,9 +97,9 @@ function App() {
             </Routes>
           </BrowserRouter>
         </AuthProvider>
-        <TestError />
+        {/* <TestError /> */}
       </ErrorBoundary>
-    </Provider>
+    </RollbarProvider>
   );
 }
 
