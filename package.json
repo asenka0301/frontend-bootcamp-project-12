@@ -1,5 +1,5 @@
 {
-  "name": "frontend-bootcamp-project-12",
+  "name":  "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/asenka0301/frontend-bootcamp-project-12/workflows/hexlet-check/badge.svg)](https://github.com/asenka0301/frontend-bootcamp-project-12/actions)",
   "main": "index.js",
