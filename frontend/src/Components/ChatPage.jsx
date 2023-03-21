@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
+import filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes';
 import ChannelModal from './ChannelModal';
@@ -35,6 +36,7 @@ function ChatPage() {
   const [clickedDropdown, setClickedDropdown] = useState(null);
   const inputRef = useRef();
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
 
   const channel = useSelector(channelsSelectors.selectAll);
   const message = useSelector(messagesSelectors.selectAll);
@@ -164,7 +166,7 @@ function ChatPage() {
                     <div key={el.id} className="text-break mb-2">
                       <b>{JSON.parse(localStorage.getItem('userData')).username}</b>
                       :
-                      {` ${el.body}`}
+                      {filter.clean(`${el.body}`)}
                     </div>
                   ))}
               </div>
