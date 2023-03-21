@@ -4,7 +4,7 @@ export default {
     logOut: 'Выйти',
     nickname: 'Ваш ник',
     username: 'Имя пользователя',
-    password: 'Ваш пароль',
+    password: 'Пароль',
     logInFailed: 'Неверные имя пользователя или пароль',
     noAccount: 'Нет аккаунта ',
     signUp: 'Регистрация',
