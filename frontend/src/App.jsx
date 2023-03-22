@@ -30,7 +30,7 @@ const rollbarConfig = {
 //   return a.hello();
 // }
 
-function AuthProvider({ children }) {
+const AuthProvider = ({ children }) => {
   const initialState = Boolean(localStorage.getItem('userData'));
   const [loggedIn, setLoggedIn] = useState(initialState);
   const logIn = () => {
@@ -50,14 +50,14 @@ function AuthProvider({ children }) {
   );
 }
 
-function ChatRoute({ children }) {
+const ChatRoute = ({ children }) => {
   const auth = useAuth();
   return (
     auth.loggedIn ? children : <Navigate to="/login" />
   );
 }
 
-function AuthButton() {
+const AuthButton = () => {
   const auth = useAuth();
   const { t } = useTranslation();
 
@@ -68,7 +68,7 @@ function AuthButton() {
   );
 }
 
-function App() {
+const App = () => {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
