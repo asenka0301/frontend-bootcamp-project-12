@@ -102,7 +102,7 @@ function ModalRenameChannel(props) {
                       onFocus={() => inputRef.current.select()}
                       isInvalid={formik.touched.name && formik.errors.name}
                     />
-                    <Form.Label htmlFor="name">{t('channel')}</Form.Label>
+                    <Form.Label htmlFor="name">{t('channelName')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
                   </Form.Group>
                   <div className="d-flex justify-content-end">
