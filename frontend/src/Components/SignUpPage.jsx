@@ -28,7 +28,7 @@ function SignUpPage() {
         .max(20, `${t('usernameLength')}`)
         .required(`${t('requiredField')}`),
       password: Yup.string()
-        .min(3, `${t('passwordLength')}`)
+        .min(6, `${t('passwordLength')}`)
         .required(`${t('requiredField')}`),
       passwordConfirmation: Yup.string()
         .required(`${t('requiredField')}`)
@@ -92,7 +92,7 @@ function SignUpPage() {
                 ref={inputRef}
               />
               <Form.Label htmlFor="username">{t('username')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{isUserExists ? ' ' : formik.errors.username}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{isUserExists ? null : formik.errors.username}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
@@ -107,7 +107,7 @@ function SignUpPage() {
                   || (formik.touched.password && formik.errors.password)}
               />
               <Form.Label htmlFor="password">{t('password')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{isUserExists ? '' : formik.errors.password}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{isUserExists ? null : formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
