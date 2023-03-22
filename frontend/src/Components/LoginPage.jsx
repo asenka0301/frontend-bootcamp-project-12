@@ -21,6 +21,10 @@ const LoginPage = () => {
   const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState(false);
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -60,10 +64,6 @@ const LoginPage = () => {
   if (auth.loggedIn) {
     return <Navigate to="/" />;
   }
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
 
   return (
     <main className="main">
