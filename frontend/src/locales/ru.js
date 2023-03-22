@@ -33,7 +33,7 @@ export default {
     renameButton: 'Переименовать',
     channelCreated: 'Канал создан',
     connectionError: 'Ошибка сети',
-    channelDeleted: 'Канал удален',
+    channelDeleted: 'Канал удалён',
     channelRenamed: 'Канал переименован',
   },
 };
