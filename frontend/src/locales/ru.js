@@ -29,7 +29,7 @@ export default {
     renameChannel: 'Переименовать канал',
     confirm: 'Уверены ?',
     deleteButton: 'Удалить',
-    channelControl: 'Управлениие каналом',
+    channelControl: 'Управление каналом',
     renameButton: 'Переименовать',
     channelCreated: 'Канал создан',
     connectionError: 'Ошибка сети',
