@@ -9,7 +9,7 @@ export default {
     noAccount: 'Нет аккаунта ',
     signUp: 'Регистрация',
     passwordConfirmation: 'Подтвердите пароль',
-    usernameLength: 'От 3 дo 20 символов',
+    usernameLength: 'От 3 до 20 символов',
     passwordLength: 'Не менее 6 символов',
     requiredField: 'Обязательное поле',
     passwordConfirmationMessage: 'Пароли должны совпадать',

@@ -38,11 +38,9 @@ function SignUpPage() {
         ),
     }),
     onSubmit: async (values) => {
-      setIsUserExists(false);
       try {
         const response = await axios
           .post(routes.signUpPath(), { username: values.username, password: values.password });
-        console.log(response.status);
         if (response.status === 201) {
           localStorage.setItem('userData', JSON.stringify(response.data));
           auth.logIn();
@@ -87,12 +85,11 @@ function SignUpPage() {
                 autoComplete="username"
                 onChange={formik.handleChange}
                 value={formik.values.username}
-                isInvalid={isUserExists
-                  || (formik.touched.username && formik.errors.username)}
+                isInvalid={formik.touched.username && formik.errors.username}
                 ref={inputRef}
               />
               <Form.Label htmlFor="username">{t('username')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{isUserExists ? null : formik.errors.username}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
@@ -103,11 +100,10 @@ function SignUpPage() {
                 autoComplete="current-password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                isInvalid={isUserExists
-                  || (formik.touched.password && formik.errors.password)}
+                isInvalid={(formik.touched.password && formik.errors.password)}
               />
               <Form.Label htmlFor="password">{t('password')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{isUserExists ? null : formik.errors.password}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
