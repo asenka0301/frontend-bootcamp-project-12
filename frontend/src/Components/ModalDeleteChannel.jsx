@@ -35,7 +35,7 @@ function ModalDeleteChannel(props) {
     };
   }, [deleteChannelModal]);
 
-  function deleteChannel() {
+  const deleteChannel = () => {
     socket.emit('removeChannel', { id: clickedDropdown.id }, (response) => {
       if (response.status === 'ok') {
         toast.success(`${t('channelDeleted')}`);
@@ -106,6 +106,6 @@ function ModalDeleteChannel(props) {
       </div>
     </>
   );
-}
+};
 
 export default ModalDeleteChannel;

@@ -48,14 +48,14 @@ const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 const ChatRoute = ({ children }) => {
   const auth = useAuth();
   return (
     auth.loggedIn ? children : <Navigate to="/login" />
   );
-}
+};
 
 const AuthButton = () => {
   const auth = useAuth();
@@ -66,10 +66,10 @@ const AuthButton = () => {
       ? <Button onClick={auth.logOut}>{t('logOut')}</Button>
       : null
   );
-}
+};
 
-const App = () => {
-  return (
+const App = () =>
+  (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
@@ -101,6 +101,5 @@ const App = () => {
       </ErrorBoundary>
     </RollbarProvider>
   );
-}
 
 export default App;

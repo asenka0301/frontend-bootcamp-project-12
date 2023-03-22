@@ -14,7 +14,7 @@ import routes from '../routes.js';
 import useAuth from '../hooks/index';
 import chatLogo from '../Images/chat-logo.svg';
 
-function LoginPage() {
+const LoginPage = () => {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -112,6 +112,6 @@ function LoginPage() {
       </div>
     </main>
   );
-}
+};
 
 export default LoginPage;

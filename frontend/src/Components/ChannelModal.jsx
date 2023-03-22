@@ -113,6 +113,6 @@ const ChannelModal = (props) => {
       </div>
     </>
   );
-}
+};
 
 export default ChannelModal;

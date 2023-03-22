@@ -4,7 +4,6 @@ env:
 extends:
   - airbnb
   - plugin:react/recommended
-  - plugin:functional/recommended
 overrides: []
 parserOptions:
   ecmaVersion: latest
@@ -16,4 +15,6 @@ rules:
   import/extensions: 0
   react/prop-types: 0
   no-console: 0
+  functional/functional-parameters: 0
+  import/no-extraneous-dependencies: 0
   react/function-component-definition: [2, { "namedComponents": "arrow-function" }]

@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 
-function Dropdown(props) {
+const Dropdown = (props) => {
   const {
     item,
     currentChannel,
@@ -130,6 +130,6 @@ function Dropdown(props) {
       </div>
     </div>
   );
-}
+};
 
 export default Dropdown;
