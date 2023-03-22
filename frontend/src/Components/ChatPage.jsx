@@ -71,7 +71,7 @@ const ChatPage = () => {
       }
     };
     fetchContent();
-  }, []);
+  }, [dispatch]);
 
   function numberOfMessages() {
     return message.filter((item) => item.channelId === activeChannelId).length;

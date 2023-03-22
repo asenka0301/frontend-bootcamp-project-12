@@ -33,7 +33,7 @@ const ModalDeleteChannel = (props) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [deleteChannelModal]);
+  }, [deleteChannelModal, setDeleteChannelModal]);
 
   const deleteChannel = () => {
     socket.emit('removeChannel', { id: clickedDropdown.id }, (response) => {

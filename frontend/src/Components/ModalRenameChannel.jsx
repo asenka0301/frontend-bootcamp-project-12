@@ -35,7 +35,7 @@ const ModalRenameChannel = (props) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [renameChannelModal]);
+  }, [renameChannelModal, setRenameChannelModal]);
 
   const formik = useFormik({
     initialValues: {
