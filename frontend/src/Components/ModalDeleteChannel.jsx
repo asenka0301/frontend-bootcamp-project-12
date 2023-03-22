@@ -9,7 +9,7 @@ import { selectors as messagesSelectors } from '../slices/messagesSlice';
 
 const socket = io();
 
-function ModalDeleteChannel(props) {
+const ModalDeleteChannel = (props) => {
   const {
     deleteChannelModal,
     setDeleteChannelModal,
@@ -50,7 +50,7 @@ function ModalDeleteChannel(props) {
         toast.error(`${t('connectionError')}`);
       }
     });
-  }
+  };
 
   function deleteMessages() {
     return messages.filter((message) => message.channelId !== clickedDropdown.id);

@@ -119,6 +119,6 @@ const ModalRenameChannel = (props) => {
       </div>
     </>
   );
-}
+};
 
 export default ModalRenameChannel;

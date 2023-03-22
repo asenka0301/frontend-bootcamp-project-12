@@ -68,38 +68,37 @@ const AuthButton = () => {
   );
 };
 
-const App = () =>
-  (
-    <RollbarProvider config={rollbarConfig}>
-      <ErrorBoundary>
-        <AuthProvider>
-          <BrowserRouter>
-            <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
-              <Container>
-                <Navbar.Brand as={Link} to="/">
-                  Hexlet Chat
-                </Navbar.Brand>
-                <AuthButton />
-              </Container>
-            </Navbar>
-            <Routes>
-              <Route
-                path="/"
-                element={(
-                  <ChatRoute>
-                    <ChatPage />
-                  </ChatRoute>
-                )}
-              />
-              <Route path="*" element={<NotFoundPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/login" element={<LoginPage />} />
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
-        {/* <TestError /> */}
-      </ErrorBoundary>
-    </RollbarProvider>
-  );
+const App = () => (
+  <RollbarProvider config={rollbarConfig}>
+    <ErrorBoundary>
+      <AuthProvider>
+        <BrowserRouter>
+          <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
+            <Container>
+              <Navbar.Brand as={Link} to="/">
+                Hexlet Chat
+              </Navbar.Brand>
+              <AuthButton />
+            </Container>
+          </Navbar>
+          <Routes>
+            <Route
+              path="/"
+              element={(
+                <ChatRoute>
+                  <ChatPage />
+                </ChatRoute>
+              )}
+            />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+      {/* <TestError /> */}
+    </ErrorBoundary>
+  </RollbarProvider>
+);
 
 export default App;
