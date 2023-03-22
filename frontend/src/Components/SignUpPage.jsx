@@ -9,12 +9,16 @@ import routes from '../routes.js';
 import useAuth from '../hooks/index';
 import chatLogo from '../Images/chat-logo.svg';
 
-function SignUpPage() {
+const SignUpPage = () => {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [isUserExists, setIsUserExists] = useState(false);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -63,10 +67,6 @@ function SignUpPage() {
   if (auth.loggedIn) {
     return <Navigate to="/" />;
   }
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
 
   return (
     <main className="main">
@@ -126,6 +126,6 @@ function SignUpPage() {
       </div>
     </main>
   );
-}
+};
 
 export default SignUpPage;

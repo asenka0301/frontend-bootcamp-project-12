@@ -5,7 +5,6 @@ import './index.css';
 import { ToastContainer } from 'react-toastify';
 import App from './App';
 import store from './slices/index';
-import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './i18n';
 
@@ -27,5 +26,3 @@ root.render(
     />
   </Provider>,
 );
-
-reportWebVitals();

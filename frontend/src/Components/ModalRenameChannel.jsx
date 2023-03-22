@@ -11,7 +11,7 @@ import { actions as channelsActions, selectors as channelsSelectors } from '../s
 
 const socket = io();
 
-function ModalRenameChannel(props) {
+const ModalRenameChannel = (props) => {
   const { setRenameChannelModal, clickedDropdown, renameChannelModal } = props;
   const inputRef = useRef();
   const renameModalRef = useRef();

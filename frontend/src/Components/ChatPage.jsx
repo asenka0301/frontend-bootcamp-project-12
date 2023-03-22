@@ -26,7 +26,7 @@ function getAuthHeader() {
   return {};
 }
 
-function ChatPage() {
+const ChatPage = () => {
   const dispatch = useDispatch();
   const [activeChannelId, setActiveChannelId] = useState(null);
   const [value, setValue] = useState('');

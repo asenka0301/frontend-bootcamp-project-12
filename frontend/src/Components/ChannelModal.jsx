@@ -12,7 +12,7 @@ import { actions as channelsAction, selectors as channelsSelectors } from '../sl
 
 const socket = io();
 
-function ChannelModal(props) {
+const ChannelModal = (props) => {
   const {
     setShowModal,
     setActiveChannelId,
