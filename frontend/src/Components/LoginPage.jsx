@@ -12,7 +12,7 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
 import useAuth from '../hooks/index';
-import chatLogo from '../Images/chat-logo.svg';
+import Img from './Img';
 
 const LoginPage = () => {
   const auth = useAuth();
@@ -68,9 +68,7 @@ const LoginPage = () => {
   return (
     <main className="main">
       <div className="loginContainer">
-        <div className="imgContainer">
-          <img className="img-fluid" src={chatLogo} alt="logo" width="250" height="250" />
-        </div>
+        <Img />
         <fieldset disabled={formik.isSubmitting}>
           <Form onSubmit={formik.handleSubmit}>
             <h1 className="text-center mb-4">{t('logIn')}</h1>

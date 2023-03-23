@@ -60,30 +60,12 @@ const ChannelModal = (props) => {
     ? (
       <>
         <div className="fade modal-backdrop show" />
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fade modal show"
-          tabIndex={-1}
-          style={{ display: 'block' }}
-          onClick={(e) => {
-            if (e.currentTarget === e.target) {
-              setShowModal(false);
-            }
-          }}
-          aria-hidden="true"
-        >
+        <div role="dialog" aria-modal="true" className="fade modal show" tabIndex={-1} style={{ display: 'block' }} aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <div className="modal-title h4">{t('addChannel')}</div>
-                <button
-                  type="button"
-                  aria-label="Close"
-                  data-bs-dismiss="modal"
-                  className="btn btn-close"
-                  onClick={() => setShowModal(false)}
-                />
+                <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={() => setShowModal(false)} />
               </div>
               <div className="modal-body">
                 <Form onSubmit={formik.handleSubmit}>
