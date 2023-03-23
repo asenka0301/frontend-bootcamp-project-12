@@ -20,8 +20,23 @@ const ChannelModal = (props) => {
   } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
+  const channelModalRef = useRef();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (channelModalRef.current
+        && showModal && !channelModalRef.current.contains(event.target)) {
+        setShowModal(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showModal, setShowModal]);
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -62,7 +77,7 @@ const ChannelModal = (props) => {
         <div className="fade modal-backdrop show" />
         <div role="dialog" aria-modal="true" className="fade modal show" tabIndex={-1} style={{ display: 'block' }} aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
+            <div className="modal-content" ref={channelModalRef}>
               <div className="modal-header">
                 <div className="modal-title h4">{t('addChannel')}</div>
                 <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={() => setShowModal(false)} />
