@@ -14,6 +14,7 @@ const socket = io();
 
 const ChannelModal = (props) => {
   const {
+    showModal,
     setShowModal,
     setActiveChannelId,
   } = props;
@@ -52,67 +53,68 @@ const ChannelModal = (props) => {
   });
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    if (showModal) inputRef.current.focus();
+  }, [showModal]);
 
-  return (
-    <>
-      <div className="fade modal-backdrop show" />
-      <div
-        role="dialog"
-        aria-modal="true"
-        className="fade modal show"
-        tabIndex={-1}
-        style={{ display: 'block' }}
-        onClick={(e) => {
-          if (e.currentTarget === e.target) {
-            setShowModal(false);
-          }
-        }}
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <div className="modal-title h4">{t('addChannel')}</div>
-              <button
-                type="button"
-                aria-label="Close"
-                data-bs-dismiss="modal"
-                className="btn btn-close"
-                onClick={() => setShowModal(false)}
-              />
-            </div>
-            <div className="modal-body">
-              <Form onSubmit={formik.handleSubmit}>
-                <div>
-                  <Form.Group className="form-floating mb-3">
-                    <Form.Control
-                      name="name"
-                      id="name"
-                      ref={inputRef}
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
-                      isInvalid={formik.touched.name && formik.errors.name}
-                    />
-                    <Form.Label htmlFor="name">{t('channelName')}</Form.Label>
-                    <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
-                  </Form.Group>
-                  <div className="invalid-feedback" />
-                  <div className="d-flex justify-content-end">
-                    <button type="button" className="me-2 btn btn-secondary" onClick={() => setShowModal(false)}>{t('cancelButton')}</button>
-                    <button type="submit" className="btn btn-primary">
-                      {t('sendButton')}
-                    </button>
+  return showModal
+    ? (
+      <>
+        <div className="fade modal-backdrop show" />
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fade modal show"
+          tabIndex={-1}
+          style={{ display: 'block' }}
+          onClick={(e) => {
+            if (e.currentTarget === e.target) {
+              setShowModal(false);
+            }
+          }}
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <div className="modal-title h4">{t('addChannel')}</div>
+                <button
+                  type="button"
+                  aria-label="Close"
+                  data-bs-dismiss="modal"
+                  className="btn btn-close"
+                  onClick={() => setShowModal(false)}
+                />
+              </div>
+              <div className="modal-body">
+                <Form onSubmit={formik.handleSubmit}>
+                  <div>
+                    <Form.Group className="form-floating mb-3">
+                      <Form.Control
+                        name="name"
+                        id="name"
+                        ref={inputRef}
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                        isInvalid={formik.touched.name && formik.errors.name}
+                      />
+                      <Form.Label htmlFor="name">{t('channelName')}</Form.Label>
+                      <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
+                    </Form.Group>
+                    <div className="invalid-feedback" />
+                    <div className="d-flex justify-content-end">
+                      <button type="button" className="me-2 btn btn-secondary" onClick={() => setShowModal(false)}>{t('cancelButton')}</button>
+                      <button type="submit" className="btn btn-primary">
+                        {t('sendButton')}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </Form>
+                </Form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    ) : null;
 };
 
 export default ChannelModal;

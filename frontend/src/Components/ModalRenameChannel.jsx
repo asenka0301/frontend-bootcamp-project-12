@@ -69,25 +69,12 @@ const ModalRenameChannel = (props) => {
   return (
     <>
       <div className="fade modal-backdrop show" />
-      <div
-        role="dialog"
-        aria-modal="true"
-        className="fade modal show"
-        tabIndex="-1"
-        style={{ display: 'block' }}
-        aria-hidden="true"
-      >
+      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }} aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content" ref={renameModalRef}>
             <div className="modal-header">
               <div className="modal-title h4">{t('renameChannel')}</div>
-              <button
-                type="button"
-                aria-label="Close"
-                data-bs-dismiss="modal"
-                className="btn btn-close"
-                onClick={() => setRenameChannelModal(false)}
-              />
+              <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={() => setRenameChannelModal(false)} />
             </div>
             <div className="modal-body">
               <Form onSubmit={formik.handleSubmit} disabled={!formik.isValid}>

@@ -187,31 +187,26 @@ const ChatPage = () => {
           </div>
         </div>
       </div>
-      { showModal
-      && (
-        <ChannelModal
-          setShowModal={setShowModal}
-          setActiveChannelId={setActiveChannelId}
-        />
-      )}
-      { deleteChannelModal
-      && (
-        <ModalDeleteChannel
-          deleteChannelModal={deleteChannelModal}
-          clickedDropdown={clickedDropdown}
-          setDeleteChannelModal={setDeleteChannelModal}
-          activeChannelId={activeChannelId}
-          setActiveChannelId={setActiveChannelId}
-        />
-      )}
+      <ChannelModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        setActiveChannelId={setActiveChannelId}
+      />
+      <ModalDeleteChannel
+        deleteChannelModal={deleteChannelModal}
+        clickedDropdown={clickedDropdown}
+        setDeleteChannelModal={setDeleteChannelModal}
+        activeChannelId={activeChannelId}
+        setActiveChannelId={setActiveChannelId}
+      />
       { renameChannelModal
-      && (
-        <ModalRenameChannel
-          renameChannelModal={renameChannelModal}
-          clickedDropdown={clickedDropdown}
-          setRenameChannelModal={setRenameChannelModal}
-        />
-      )}
+            && (
+              <ModalRenameChannel
+                renameChannelModal={renameChannelModal}
+                clickedDropdown={clickedDropdown}
+                setRenameChannelModal={setRenameChannelModal}
+              />
+            )}
     </>
   );
 };
