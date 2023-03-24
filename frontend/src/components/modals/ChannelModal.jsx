@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { io } from 'socket.io-client';

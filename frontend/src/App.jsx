@@ -1,7 +1,5 @@
-/* eslint-disable react/prop-types */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-// import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import {
