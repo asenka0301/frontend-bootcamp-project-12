@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
-import { actions as channelsActions } from '../slices/channelsSlice';
-import { selectors as messagesSelectors } from '../slices/messagesSlice';
+import { actions as channelsActions } from '../../slices/channelsSlice';
+import { selectors as messagesSelectors } from '../../slices/messagesSlice';
 import ModalHedaer from './ModalHeader';
 
 const socket = io();

@@ -1,20 +1,25 @@
-import React, { useRef, useEffect, useState } from 'react';
+import {
+  React,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
-import { useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import routes from '../routes.js';
 import useAuth from '../hooks/index';
-import Img from './Img';
+import Img from '../components/Img';
 
-const SignUpPage = () => {
+const LoginPage = () => {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [isUserExists, setIsUserExists] = useState(false);
+  const [authFailed, setAuthFailed] = useState(false);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -24,7 +29,6 @@ const SignUpPage = () => {
     initialValues: {
       username: '',
       password: '',
-      passwordConfirmation: '',
     },
     validationSchema: Yup.object({
       username: Yup.string('')
@@ -32,20 +36,15 @@ const SignUpPage = () => {
         .max(20, `${t('usernameLength')}`)
         .required(`${t('requiredField')}`),
       password: Yup.string()
-        .min(6, `${t('passwordLength')}`)
+        .min(3, `${t('usernameLength')}`)
+        .max(20, `${t('usernameLength')}`)
         .required(`${t('requiredField')}`),
-      passwordConfirmation: Yup.string()
-        .required(`${t('requiredField')}`)
-        .oneOf(
-          [Yup.ref('password'), null],
-          `${t('passwordConfirmationMessage')}`,
-        ),
     }),
     onSubmit: async (values) => {
+      setAuthFailed(false);
       try {
-        const response = await axios
-          .post(routes.signUpPath(), { username: values.username, password: values.password });
-        if (response.status === 201) {
+        const response = await axios.post(routes.loginPath(), values);
+        if (response.status === 200) {
           localStorage.setItem('userData', JSON.stringify(response.data));
           auth.logIn();
           navigate('/');
@@ -53,13 +52,11 @@ const SignUpPage = () => {
       } catch (errors) {
         formik.setSubmitting(false);
         if (errors.isAxiosError && errors.response.status === 401) {
+          setAuthFailed(true);
           inputRef.current.select();
           return;
         }
-        if (errors.isAxiosError && errors.response.status === 409) {
-          inputRef.current.select();
-          setIsUserExists(true);
-        }
+        throw errors;
       }
     },
   });
@@ -74,7 +71,7 @@ const SignUpPage = () => {
         <Img />
         <fieldset disabled={formik.isSubmitting}>
           <Form onSubmit={formik.handleSubmit}>
-            <h1 className="text-center mb-4">{t('signUp')}</h1>
+            <h1 className="text-center mb-4">{t('logIn')}</h1>
             <Form.Group className="form-floating mb-3">
               <Form.Control
                 id="username"
@@ -83,11 +80,10 @@ const SignUpPage = () => {
                 autoComplete="username"
                 onChange={formik.handleChange}
                 value={formik.values.username}
-                isInvalid={formik.touched.username && formik.errors.username}
+                isInvalid={authFailed}
                 ref={inputRef}
               />
-              <Form.Label htmlFor="username">{t('username')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
+              <Form.Label htmlFor="username">{t('nickname')}</Form.Label>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
               <Form.Control
@@ -98,32 +94,22 @@ const SignUpPage = () => {
                 autoComplete="current-password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                isInvalid={(formik.touched.password && formik.errors.password)}
+                isInvalid={authFailed}
+                required
               />
               <Form.Label htmlFor="password">{t('password')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t('logInFailed')}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="form-floating mb-3">
-              <Form.Control
-                type="password"
-                id="passwordConfirmation"
-                name="passwordConfirmation"
-                placeholder="passwordConfirmation"
-                autoComplete="current-password"
-                onChange={formik.handleChange}
-                value={formik.values.passwordConfirmation}
-                isInvalid={isUserExists
-                  || (formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
-              />
-              <Form.Label htmlFor="passwordConfirmation">{t('passwordConfirmation')}</Form.Label>
-              <Form.Control.Feedback type="invalid">{isUserExists ? `${t('userExistsMessage')}` : formik.errors.passwordConfirmation}</Form.Control.Feedback>
-            </Form.Group>
-            <button type="submit" className="btn-submit">{t('signUp')}</button>
+            <button type="submit" className="btn-submit">{t('logIn')}</button>
           </Form>
         </fieldset>
+        <footer>
+          <span>{t('noAccount')}</span>
+          <a href="/signup">{t('signUp')}</a>
+        </footer>
       </div>
     </main>
   );
 };
 
-export default SignUpPage;
+export default LoginPage;

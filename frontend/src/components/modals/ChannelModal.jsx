@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
-import { actions as channelsAction, selectors as channelsSelectors } from '../slices/channelsSlice';
+import { actions as channelsAction, selectors as channelsSelectors } from '../../slices/channelsSlice';
 import ModalHeader from './ModalHeader';
 
 const socket = io();

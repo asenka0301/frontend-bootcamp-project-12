@@ -6,11 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes';
-import ChannelModal from './ChannelModal';
-import ModalDeleteChannel from './ModalDeleteChannel';
-import ModalRenameChannel from './ModalRenameChannel';
-import Messages from './Messages';
-import Channels from './Channels';
+import ChannelModal from '../components/modals/ChannelModal';
+import ModalDeleteChannel from '../components/modals/ModalDeleteChannel';
+import ModalRenameChannel from '../components/modals/ModalRenameChannel';
+import Messages from '../components/Messages';
+import Channels from '../components/Channels';
 
 import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
 import { actions as messagesActions, selectors as messagesSelectors } from '../slices/messagesSlice';

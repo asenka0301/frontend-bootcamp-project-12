@@ -13,10 +13,10 @@ import {
 } from 'react-router-dom';
 import { Button, Container, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import ChatPage from './Components/ChatPage';
-import LoginPage from './Components/LoginPage';
-import NotFoundPage from './Components/NotFoundPage';
-import SignUpPage from './Components/SignUpPage';
+import ChatPage from './pages/ChatPage';
+import LoginPage from './pages/LoginPage';
+import NotFoundPage from './pages/NotFoundPage';
+import SignUpPage from './pages/SignUpPage';
 import AuthContext from './contexts/index';
 import useAuth from './hooks';
 
@@ -24,11 +24,6 @@ const rollbarConfig = {
   accessToken: 'e89f87479d264f0d912cda06016c4c56',
   environment: 'testenv',
 };
-
-// function TestError() {
-//   const a = null;
-//   return a.hello();
-// }
 
 const AuthProvider = ({ children }) => {
   const initialState = Boolean(localStorage.getItem('userData'));
@@ -96,7 +91,6 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-      {/* <TestError /> */}
     </ErrorBoundary>
   </RollbarProvider>
 );
