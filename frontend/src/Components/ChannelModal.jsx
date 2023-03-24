@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import { actions as channelsAction, selectors as channelsSelectors } from '../slices/channelsSlice';
+import ModalHeader from './ModalHeader';
 
 const socket = io();
 
@@ -78,10 +79,7 @@ const ChannelModal = (props) => {
         <div role="dialog" aria-modal="true" className="fade modal show" tabIndex={-1} style={{ display: 'block' }} aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content" ref={channelModalRef}>
-              <div className="modal-header">
-                <div className="modal-title h4">{t('addChannel')}</div>
-                <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={() => setShowModal(false)} />
-              </div>
+              <ModalHeader onClick={() => setShowModal(false)} type="addChannel" />
               <div className="modal-body">
                 <Form onSubmit={formik.handleSubmit}>
                   <div>

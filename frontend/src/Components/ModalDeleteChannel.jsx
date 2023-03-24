@@ -6,6 +6,7 @@ import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import { actions as channelsActions } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
+import ModalHedaer from './ModalHeader';
 
 const socket = io();
 
@@ -63,10 +64,7 @@ const ModalDeleteChannel = (props) => {
         <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }} aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content" ref={deleteModalRef}>
-              <div className="modal-header">
-                <div className="modal-title h4">{t('deleteChannel')}</div>
-                <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={() => setDeleteChannelModal(false)} />
-              </div>
+              <ModalHedaer onClick={() => setDeleteChannelModal(false)} type="deleteChannel" />
               <div className="modal-body">
                 <p className="lead">{t('confirm')}</p>
                 <div className="d-flex justify-content-end">

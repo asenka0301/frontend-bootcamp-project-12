@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
+import ModalHedaer from './ModalHeader';
 
 const socket = io();
 
@@ -72,10 +73,7 @@ const ModalRenameChannel = (props) => {
       <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }} aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content" ref={renameModalRef}>
-            <div className="modal-header">
-              <div className="modal-title h4">{t('renameChannel')}</div>
-              <button type="button" aria-label="Close" data-bs-dismiss="modal" className="btn btn-close" onClick={() => setRenameChannelModal(false)} />
-            </div>
+            <ModalHedaer onClick={() => setRenameChannelModal(false)} type="renameChannel" />
             <div className="modal-body">
               <Form onSubmit={formik.handleSubmit} disabled={!formik.isValid}>
                 <div>
