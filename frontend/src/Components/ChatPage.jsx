@@ -1,16 +1,16 @@
 import axios from 'axios';
-import cn from 'classnames';
+// import cn from 'classnames';
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
-import filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes';
 import ChannelModal from './ChannelModal';
-import Dropdown from './Dropdown';
 import ModalDeleteChannel from './ModalDeleteChannel';
 import ModalRenameChannel from './ModalRenameChannel';
+import Messages from './Messages';
+import Channels from './Channels';
 
 import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
 import { actions as messagesActions, selectors as messagesSelectors } from '../slices/messagesSlice';
@@ -36,7 +36,6 @@ const ChatPage = () => {
   const [clickedDropdown, setClickedDropdown] = useState(null);
   const inputRef = useRef();
   const { t } = useTranslation();
-  filter.loadDictionary('ru');
 
   const channel = useSelector(channelsSelectors.selectAll);
   const message = useSelector(messagesSelectors.selectAll);
@@ -89,45 +88,6 @@ const ChatPage = () => {
     setValue('');
   }
 
-  function displayChannels(data) {
-    return data.map((item) => {
-      if (item.removable === false) {
-        return (
-          <li key={item.id} className="nav-item w-100">
-            <button
-              type="button"
-              className={cn(
-                'w-100',
-                'rounded-0',
-                'text-start',
-                'border-0',
-                'btn',
-                {
-                  'btn-secondary': item.id === currentChannel.id,
-                },
-              )}
-              onClick={() => setActiveChannelId(item.id)}
-            >
-              <span className="me-1">#</span>
-              {item.name}
-            </button>
-          </li>
-        );
-      } return (
-        <li key={item.id} className="nav-item w-100">
-          <Dropdown
-            item={item}
-            currentChannel={currentChannel}
-            setActiveChannelId={setActiveChannelId}
-            setDeleteChannelModal={setDeleteChannelModal}
-            setRenameChannelModal={setRenameChannelModal}
-            setClickedDropdown={setClickedDropdown}
-          />
-        </li>
-      );
-    });
-  }
-
   return (
     <>
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -143,9 +103,14 @@ const ChatPage = () => {
                 <span className="visually-hidden">+</span>
               </button>
             </div>
-            <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-              {currentChannel && displayChannels(channel)}
-            </ul>
+            <Channels
+              channel={channel}
+              currentChannel={currentChannel}
+              setActiveChannelId={(id) => setActiveChannelId(id)}
+              setDeleteChannelModal={setDeleteChannelModal}
+              setRenameChannelModal={setRenameChannelModal}
+              setClickedDropdown={setClickedDropdown}
+            />
           </div>
           <div className="col p-0 h-100">
             <div className="d-flex flex-column h-100">
@@ -159,17 +124,7 @@ const ChatPage = () => {
                   { t('message', { count: numberOfMessages() }) }
                 </span>
               </div>
-              <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-                { message && message
-                  .filter((item) => item.channelId === activeChannelId)
-                  .map((el) => (
-                    <div key={el.id} className="text-break mb-2">
-                      <b>{JSON.parse(localStorage.getItem('userData')).username}</b>
-                      :
-                      {filter.clean(`${el.body}`)}
-                    </div>
-                  ))}
-              </div>
+              <Messages message={message} activeChannelId={activeChannelId} />
               <div className="mt-auto px-5 py-3">
                 <form noValidate="" className="py-1 border rounded-2" onSubmit={sendMessage}>
                   <div className="input-group has-validation">
