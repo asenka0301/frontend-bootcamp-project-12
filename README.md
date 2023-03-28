@@ -11,4 +11,4 @@ $ make start-backend
 $ make start-frontend
 ```
 
-## [Chat (Slack) Live Demo](https://frontend-bootcamp-project-12-production.up.railway.app/)
+## <a href="https://frontend-bootcamp-project-12.onrender.com" target="_blank">Chat (Slack) Live Demo</a>
