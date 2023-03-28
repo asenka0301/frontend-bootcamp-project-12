@@ -65,7 +65,7 @@ const SignUpPage = () => {
   });
 
   if (auth.loggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to={`${routes.root()}`} />;
   }
 
   return (

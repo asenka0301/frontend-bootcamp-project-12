@@ -17,6 +17,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import SignUpPage from './pages/SignUpPage';
 import AuthContext from './contexts/index';
 import useAuth from './hooks';
+import routes from './routes';
 
 const rollbarConfig = {
   accessToken: process.env.ACCESS_TOKEN,
@@ -46,7 +47,7 @@ const AuthProvider = ({ children }) => {
 const ChatRoute = ({ children }) => {
   const auth = useAuth();
   return (
-    auth.loggedIn ? children : <Navigate to="/login" />
+    auth.loggedIn ? children : <Navigate to={`${routes.login()}`} />
   );
 };
 
@@ -68,7 +69,7 @@ const App = () => (
         <BrowserRouter>
           <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
             <Container>
-              <Navbar.Brand as={Link} to="/">
+              <Navbar.Brand as={Link} to={`${routes.root()}`}>
                 Hexlet Chat
               </Navbar.Brand>
               <AuthButton />
@@ -76,16 +77,16 @@ const App = () => (
           </Navbar>
           <Routes>
             <Route
-              path="/"
+              path={`${routes.root()}`}
               element={(
                 <ChatRoute>
                   <ChatPage />
                 </ChatRoute>
               )}
             />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path={`${routes.notFoundPage()}`} element={<NotFoundPage />} />
+            <Route path={`${routes.signUp()}`} element={<SignUpPage />} />
+            <Route path={`${routes.login()}`} element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

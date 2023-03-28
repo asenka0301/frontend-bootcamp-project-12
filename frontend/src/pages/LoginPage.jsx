@@ -62,7 +62,7 @@ const LoginPage = () => {
   });
 
   if (auth.loggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to={`${routes.root()}`} />;
   }
 
   return (
@@ -105,7 +105,7 @@ const LoginPage = () => {
         </fieldset>
         <footer>
           <span>{t('noAccount')}</span>
-          <a href="/signup">{t('signUp')}</a>
+          <a href={`${routes.signUp()}`}>{t('signUp')}</a>
         </footer>
       </div>
     </main>
