@@ -19,7 +19,7 @@ import AuthContext from './contexts/index';
 import useAuth from './hooks';
 
 const rollbarConfig = {
-  accessToken: 'e89f87479d264f0d912cda06016c4c56',
+  accessToken: process.env.ACCESS_TOKEN,
   environment: 'testenv',
 };
 
