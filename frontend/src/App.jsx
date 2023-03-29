@@ -14,7 +14,7 @@ import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SignUpPage from './pages/SignUpPage';
 import AuthProvider from './context/AuthProvider';
-import useAuth from './hooks';
+import { useAuth } from './hooks';
 import routes from './routes';
 
 const rollbarConfig = {

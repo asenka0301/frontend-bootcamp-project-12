@@ -6,7 +6,7 @@ import { Form } from 'react-bootstrap';
 import { useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import routes from '../routes.js';
-import useAuth from '../hooks/index';
+import { useAuth } from '../hooks/index';
 import Img from '../components/Img';
 
 const SignUpPage = () => {

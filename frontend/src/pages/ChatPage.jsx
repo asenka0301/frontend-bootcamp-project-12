@@ -10,7 +10,7 @@ import ModalDeleteChannel from '../components/modals/ModalDeleteChannel';
 import ModalRenameChannel from '../components/modals/ModalRenameChannel';
 import Messages from '../components/Messages';
 import Channels from '../components/Channels';
-import useAuth from '../hooks/index';
+import { useAuth } from '../hooks/index';
 
 import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
 import { actions as messagesActions, selectors as messagesSelectors } from '../slices/messagesSlice';

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import AuthContext from './context';
+import { AuthContext } from './context';
 
 const AuthProvider = ({ children }) => {
   const getAuthHeader = () => {
