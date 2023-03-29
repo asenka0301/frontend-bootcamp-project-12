@@ -7,10 +7,8 @@ import {
   Routes,
   Route,
   Navigate,
-  Link,
 } from 'react-router-dom';
-import { Button, Container, Navbar } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import Nav from './components/Nav';
 import ChatPage from './pages/ChatPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -51,30 +49,12 @@ const ChatRoute = ({ children }) => {
   );
 };
 
-const AuthButton = () => {
-  const auth = useAuth();
-  const { t } = useTranslation();
-
-  return (
-    auth.loggedIn
-      ? <Button onClick={auth.logOut}>{t('logOut')}</Button>
-      : null
-  );
-};
-
 const App = () => (
   <RollbarProvider config={rollbarConfig}>
     <ErrorBoundary>
       <AuthProvider>
         <BrowserRouter>
-          <Navbar className="shadow-sm" bg="white" expand="lg" variant="white">
-            <Container>
-              <Navbar.Brand as={Link} to={`${routes.root()}`}>
-                Hexlet Chat
-              </Navbar.Brand>
-              <AuthButton />
-            </Container>
-          </Navbar>
+          <Nav />
           <Routes>
             <Route
               path={`${routes.root()}`}

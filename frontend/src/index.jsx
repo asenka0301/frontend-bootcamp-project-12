@@ -6,7 +6,9 @@ import { ToastContainer } from 'react-toastify';
 import App from './App';
 import store from './slices/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './i18n';
+import i18n from './i18n';
+
+i18n();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
