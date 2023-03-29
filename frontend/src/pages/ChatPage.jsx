@@ -10,22 +10,15 @@ import ModalDeleteChannel from '../components/modals/ModalDeleteChannel';
 import ModalRenameChannel from '../components/modals/ModalRenameChannel';
 import Messages from '../components/Messages';
 import Channels from '../components/Channels';
+import useAuth from '../hooks/index';
 
 import { actions as channelsActions, selectors as channelsSelectors } from '../slices/channelsSlice';
 import { actions as messagesActions, selectors as messagesSelectors } from '../slices/messagesSlice';
 
 const socket = io();
 
-function getAuthHeader() {
-  const userData = JSON.parse(localStorage.getItem('userData'));
-
-  if (userData) {
-    return { Authorization: `Bearer ${userData.token}` };
-  }
-  return {};
-}
-
 const ChatPage = () => {
+  const auth = useAuth();
   const dispatch = useDispatch();
   const [activeChannelId, setActiveChannelId] = useState(null);
   const [value, setValue] = useState('');
@@ -57,7 +50,7 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+        const response = await axios.get(routes.usersPath(), { headers: auth.getAuthHeader() });
         if (response.status === 200) {
           const { channels, messages, currentChannelId } = response.data;
           dispatch(channelsActions.addChannels(channels));
@@ -69,7 +62,7 @@ const ChatPage = () => {
       }
     };
     fetchContent();
-  }, [dispatch]);
+  }, [dispatch, auth]);
 
   function numberOfMessages() {
     return message.filter((item) => item.channelId === activeChannelId).length;
