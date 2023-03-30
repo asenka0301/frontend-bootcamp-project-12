@@ -10,9 +10,9 @@ import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import routes from '../routes.js';
-import { useAuth } from '../hooks/index';
-import Img from '../components/Img';
+import routes from '../../routes.js';
+import { useAuth } from '../../hooks/index';
+import Img from '../Img';
 
 const LoginPage = () => {
   const auth = useAuth();

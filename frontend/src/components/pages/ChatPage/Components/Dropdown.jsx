@@ -5,12 +5,13 @@ import cn from 'classnames';
 const Dropdown = (props) => {
   const {
     item,
-    currentChannel,
-    setActiveChannelId,
+    activeChannelId,
+    handleClick,
     setDeleteChannelModal,
     setRenameChannelModal,
     setClickedDropdown,
   } = props;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((isOpen) => !isOpen);
   const dropDownRef = useRef();
@@ -56,10 +57,10 @@ const Dropdown = (props) => {
           'border-0',
           'btn',
           {
-            'btn-secondary': item.id === currentChannel.id,
+            'btn-secondary': item.id === activeChannelId,
           },
         )}
-        onClick={() => setActiveChannelId(item.id)}
+        onClick={() => handleClick(item.id)}
       >
         <span className="me-1">#</span>
         {item.name}
@@ -74,7 +75,7 @@ const Dropdown = (props) => {
           'border-0',
           'btn',
           {
-            'btn-secondary': item.id === currentChannel.id,
+            'btn-secondary': item.id === activeChannelId,
           },
         )}
         ref={dropDownRef}
@@ -113,7 +114,7 @@ const Dropdown = (props) => {
           {t('deleteButton')}
         </button>
         <button
-          id={currentChannel.id}
+          id={activeChannelId}
           data-rr-ui-dropdown-item
           type="button"
           className="dropdown-item"
