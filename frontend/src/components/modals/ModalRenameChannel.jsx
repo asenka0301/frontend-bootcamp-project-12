@@ -1,21 +1,19 @@
 import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Form, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { actions as channelsActions, selectors as channelsSelectors } from '../../slices/channelsSlice';
+import { useSelector } from 'react-redux';
+import { selectors as channelsSelectors } from '../../slices/channelsSlice';
 import ModalHedaer from './ModalHeader';
-
-const socket = io();
+import { useSocket } from '../../hooks/index';
 
 const ModalRenameChannel = (props) => {
-  const { setRenameChannelModal, clickedDropdown, renameChannelModal } = props;
+  const socket = useSocket();
+  const { setRenameChannelModal, clickedDropdown } = props;
   const inputRef = useRef();
   const renameModalRef = useRef();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelName = clickedDropdown.name;
@@ -23,19 +21,6 @@ const ModalRenameChannel = (props) => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (renameModalRef.current
-        && renameChannelModal && !renameModalRef.current.contains(event.target)) {
-        setRenameChannelModal(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [renameChannelModal, setRenameChannelModal]);
 
   const formik = useFormik({
     initialValues: {
@@ -51,18 +36,8 @@ const ModalRenameChannel = (props) => {
         .notOneOf((channels).map((channel) => channel.name), 'Must be unique'),
     }),
     onSubmit: (values) => {
-      socket.emit('renameChannel', { id: clickedDropdown.id, name: values.name }, (response) => {
-        if (response.status === 'ok') {
-          socket.on('renameChannel', (payload) => {
-            toast.success(`${t('channelRenamed')}`);
-            dispatch(channelsActions
-              .updateChannel({ id: payload.id, changes: { name: payload.name } }));
-          });
-          setRenameChannelModal(false);
-        } else {
-          toast.error(`${t('connectionError')}`);
-        }
-      });
+      socket.renameChannel({ id: clickedDropdown.id, name: values.name });
+      toast.success(`${t('channelRenamed')}`);
     },
   });
 

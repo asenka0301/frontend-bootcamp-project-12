@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const ChatHeader = (props) => {
-  const { currentChannel, message } = props;
+  const { activeChannelId, message, currentChannels } = props;
   const { t } = useTranslation();
-  const numberOfMessages = message.filter((item) => item.channelId === currentChannel.id).length;
-  console.log(numberOfMessages);
+  const numberOfMessages = message.filter((item) => item.channelId === activeChannelId).length;
+  const currentChannel = currentChannels.find((channel) => channel.id === activeChannelId);
   return (
     <div className="bg-light mb-4 p-3 shadow-sm small">
       <p className="m-0">

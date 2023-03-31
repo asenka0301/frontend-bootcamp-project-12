@@ -1,26 +1,26 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import Dropdown from './Dropdown';
-import { selectors as channelsSelectors } from '../../../../slices/channelsSlice';
+// import { selectors as channelsSelectors } from '../../../../slices/channelsSlice';
 import { actions as currentChannelIdActions } from '../../../../slices/currentChannelSlice';
 
 const Channels = (props) => {
   const {
+    currentChannels,
     activeChannelId,
     setDeleteChannelModal,
     setRenameChannelModal,
     setClickedDropdown,
   } = props;
   const dispatch = useDispatch();
-  const channels = useSelector(channelsSelectors.selectAll); // получила каналы
 
   const handleClick = (id) => {
     dispatch(currentChannelIdActions.setCurrentChannelId(id));
   };
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-      {channels && channels.map((item) => {
+      {currentChannels && currentChannels.map((item) => {
         if (!item.removable) {
           return (
             <li key={item.id} className="nav-item w-100">

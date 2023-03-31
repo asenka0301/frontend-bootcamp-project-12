@@ -26,40 +26,40 @@ const App = () => {
     dispatch(messagesActions.addMessage(payload));
   });
   socket.on('newChannel', (payload) => {
-    dispatch(channelsActions.addChannels(payload));
+    dispatch(channelsActions.addChannel(payload));
   });
   socket.on('removeChannel', (payload) => {
-    dispatch(channelsActions.removeChannel(payload));
+    dispatch(channelsActions.removeChannel(payload.id));
   });
   socket.on('renameChannel', (payload) => {
-    dispatch(channelsActions.removeChannel(payload));
+    dispatch(channelsActions.updateChannel({ id: payload.id, changes: { name: payload.name } }));
   });
 
   const socketApi = useMemo(() => (
     {
       sendMessage: (data) => socket.emit('newMessage', data),
-      addChannel: (name, callback) => {
+      addChannel: (name) => {
         // eslint-disable-next-line consistent-return
         socket.emit('newChannel', { name }, (response) => {
           const { status, data } = response;
           if (status === 'ok') {
             dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
-            callback();
+            console.log(data.id);
             return data;
           }
         });
       },
-      // deleteChannel: (id) => {
-      //   socket.emit('removeChannel', { id }, (response) => {
-      //     const { status } = response;
-      //     if (status === 'ok') {
-      //       dispatch(channelsActions.removeChannel(id));
-      //     }
-      //   });
-      // },
-      // renameChannel: (name, id) => {
-      //   socket.emit('renameChannel', { name, id });
-      // },
+      deleteChannel: (id) => {
+        socket.emit('removeChannel', { id }, (response) => {
+          const { status } = response;
+          if (status === 'ok') {
+            dispatch(channelsActions.removeChannel(id));
+          }
+        });
+      },
+      renameChannel: ({ id, name }) => {
+        socket.emit('renameChannel', { id, name });
+      },
     }), [dispatch, socket]);
 
   return (

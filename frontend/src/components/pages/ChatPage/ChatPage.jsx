@@ -27,14 +27,18 @@ const ChatPage = () => {
   const { t } = useTranslation();
 
   const message = useSelector(messagesSelectors.selectAll);
+  const currentChannels = useSelector(channelsSelectors.selectAll); // получила каналы
 
   const activeChannelId = useSelector((state) => {
     const { currentChannelId } = state.currentChannelId;
     return currentChannelId;
   });
 
-  const currentChannel = useSelector((state) => channelsSelectors
-    .selectById(state, activeChannelId));
+  // const currentChannel = useSelector((state) => channelsSelectors
+  //   .selectById(state, activeChannelId));
+  // console.log(currentChannel);
+
+  // const currentChannel = currentChannels.find((channel) => channel.id === activeChannelId);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -69,6 +73,7 @@ const ChatPage = () => {
               </button>
             </div>
             <Channels
+              currentChannels={currentChannels}
               activeChannelId={activeChannelId}
               setDeleteChannelModal={setDeleteChannelModal}
               setRenameChannelModal={setRenameChannelModal}
@@ -77,7 +82,11 @@ const ChatPage = () => {
           </div>
           <div className="col p-0 h-100">
             <div className="d-flex flex-column h-100">
-              <ChatHeader message={message} currentChannel={currentChannel} />
+              <ChatHeader
+                message={message}
+                activeChannelId={activeChannelId}
+                currentChannels={currentChannels}
+              />
               <Messages message={message} activeChannelId={activeChannelId} />
               <MessageForm activeChannelId={activeChannelId} />
             </div>

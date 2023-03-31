@@ -1,55 +1,32 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
-import { actions as channelsActions } from '../../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../../slices/messagesSlice';
 import ModalHedaer from './ModalHeader';
-
-const socket = io();
+import { useSocket } from '../../hooks/index';
+import { actions as currentChannelIdActions } from '../../slices/currentChannelSlice';
 
 const ModalDeleteChannel = (props) => {
+  const socket = useSocket();
+  console.log(socket);
   const {
     deleteChannelModal,
     setDeleteChannelModal,
     clickedDropdown,
     activeChannelId,
-    setActiveChannelId,
   } = props;
   const dispatch = useDispatch();
   const deleteModalRef = useRef();
   const { t } = useTranslation();
   const messages = useSelector(messagesSelectors.selectAll);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (deleteModalRef.current
-        && deleteChannelModal && !deleteModalRef.current.contains(event.target)) {
-        setDeleteChannelModal(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [deleteChannelModal, setDeleteChannelModal]);
-
   const deleteChannel = () => {
-    socket.emit('removeChannel', { id: clickedDropdown.id }, (response) => {
-      if (response.status === 'ok') {
-        toast.success(`${t('channelDeleted')}`);
-        socket.on('removeChannel', (payload) => {
-          if (payload.id === activeChannelId) {
-            setActiveChannelId(1);
-          }
-          dispatch(channelsActions.removeChannel(payload.id));
-          setDeleteChannelModal(false);
-        });
-      } else {
-        toast.error(`${t('connectionError')}`);
-      }
-    });
+    socket.deleteChannel(clickedDropdown.id);
+    toast.success(`${t('channelDeleted')}`);
+    if (clickedDropdown.id === activeChannelId) {
+      dispatch(currentChannelIdActions.setCurrentChannelId(1));
+    }
   };
 
   function deleteMessages() {

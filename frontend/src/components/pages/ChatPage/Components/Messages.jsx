@@ -3,10 +3,8 @@ import React, { useEffect } from 'react';
 const Messages = (props) => {
   const { message, activeChannelId } = props;
   console.log(message);
-
   useEffect(() => {
     const container = document.getElementById('messages-box');
-    console.log(container);
     container.scrolTop = container.scrollHeight;
   }, []);
 
@@ -16,7 +14,7 @@ const Messages = (props) => {
         .filter((item) => item.channelId === activeChannelId)
         .map((el) => (
           <div key={el.id} className="text-break mb-2">
-            <b>{JSON.parse(localStorage.getItem('userData')).username}</b>
+            <b>{el.userName}</b>
             :
             { el.body }
           </div>

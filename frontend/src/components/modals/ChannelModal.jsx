@@ -1,41 +1,38 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { io } from 'socket.io-client';
 import React, { useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
-import { actions as channelsAction, selectors as channelsSelectors } from '../../slices/channelsSlice';
+import { selectors as channelsSelectors } from '../../slices/channelsSlice';
 import ModalHeader from './ModalHeader';
-
-const socket = io();
+import { useSocket } from '../../hooks/index';
 
 const ChannelModal = (props) => {
+  const socket = useSocket();
   const {
     showModal,
     setShowModal,
-    setActiveChannelId,
   } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
   const channelModalRef = useRef();
-  const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (channelModalRef.current
-        && showModal && !channelModalRef.current.contains(event.target)) {
-        setShowModal(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showModal, setShowModal]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (channelModalRef.current
+  //       && showModal && !channelModalRef.current.contains(event.target)) {
+  //       setShowModal(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, [showModal, setShowModal]);
 
   const formik = useFormik({
     initialValues: {
@@ -51,19 +48,14 @@ const ChannelModal = (props) => {
         .notOneOf((channels).map((channel) => channel.name), `${t('channelExistsMessage')}`),
     }),
     onSubmit: (values) => {
-      const currentUser = JSON.parse(localStorage.getItem('userData')).username;
-      socket.emit('newChannel', { name: values.name, username: currentUser }, (response) => {
-        if (response.status === 'ok') {
-          toast.success(`${t('channelCreated')}`);
-          socket.on('newChannel', (payload) => {
-            setActiveChannelId(payload.id);
-            dispatch(channelsAction.addChannel(payload));
-          });
-          setShowModal(false);
-        } else {
-          toast.error(`${t('connectionError')}`);
-        }
-      });
+      const { name } = values;
+      try {
+        socket.addChannel(name);
+        toast.success(`${t('channelCreated')}`);
+        setShowModal(false);
+      } catch (errors) {
+        console.log(errors);
+      }
     },
   });
 
