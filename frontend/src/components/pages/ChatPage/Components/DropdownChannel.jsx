@@ -28,6 +28,7 @@ const DropdownChannel = (props) => {
         onClick={() => handleClick(item.id)}
       >
         { item.name }
+        <span className="visually-hidden">{t('channelControl')}</span>
       </Button>
       <Dropdown.Toggle variant={variant} />
       <Dropdown.Menu>
