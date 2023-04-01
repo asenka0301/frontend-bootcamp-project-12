@@ -28,9 +28,10 @@ const DropdownChannel = (props) => {
         onClick={() => handleClick(item.id)}
       >
         { item.name }
-        <span className="visually-hidden">{t('channelControl')}</span>
       </Button>
-      <Dropdown.Toggle variant={variant} />
+      <Dropdown.Toggle variant={variant}>
+        <span className="visually-hidden">{t('channelControl')}</span>
+      </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item onClick={openModalToDeleteChannel}>{t('deleteButton')}</Dropdown.Item>
         <Dropdown.Item onClick={openModalToRenameChannel}>{t('renameButton')}</Dropdown.Item>
