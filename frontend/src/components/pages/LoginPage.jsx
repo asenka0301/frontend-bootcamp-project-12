@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import routes from '../../routes.js';
 import { useAuth } from '../../hooks/index';
@@ -45,9 +46,9 @@ const LoginPage = () => {
         if (errors.isAxiosError && errors.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
-          return;
+        } else {
+          toast.error(t('connectionError'));
         }
-        throw errors;
       }
     },
   });
