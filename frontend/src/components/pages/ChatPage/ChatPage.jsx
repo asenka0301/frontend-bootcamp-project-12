@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import routes from '../../../routes';
@@ -10,8 +10,8 @@ import Messages from './Components/Messages';
 import Channels from './Components/Channels';
 import MainModal from '../../modals/MainModal';
 import { useAuth } from '../../../hooks/index';
-import { actions as channelsActions, selectors as channelsSelectors } from '../../../slices/channelsSlice';
-import { actions as messagesActions, selectors as messagesSelectors } from '../../../slices/messagesSlice';
+import { actions as channelsActions } from '../../../slices/channelsSlice';
+import { actions as messagesActions } from '../../../slices/messagesSlice';
 import { actions as currentChannelIdActions } from '../../../slices/currentChannelSlice';
 import { openModal } from '../../../slices/modalsSlice';
 
@@ -20,17 +20,15 @@ const ChatPage = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const message = useSelector(messagesSelectors.selectAll);
-  const currentChannels = useSelector(channelsSelectors.selectAll);
-
-  const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.currentChannelId;
-    return currentChannelId;
-  });
-
   const showChannelModal = () => {
     dispatch(openModal({ modalType: 'addChannel' }));
   };
+
+  // const currentmessages = useSelector(messagesSelectors.selectAll);
+  // const activeChannelId = useSelector((state) => {
+  //   const { currentChannelId } = state.currentChannelId;
+  //   return currentChannelId;
+  // });
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -51,6 +49,12 @@ const ChatPage = () => {
     fetchContent();
   }, [dispatch, auth]);
 
+  // useEffect(() => {
+  //   const container = document.getElementById('messages-box');
+  //   container.scrollTo(container.scrollHeight, 0, 0); // = container.scrollHeight;
+  //   console.log('scroll part: ', container.scrollHeight);
+  // }, [currentmessages, activeChannelId]);
+
   return (
     <>
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -66,20 +70,13 @@ const ChatPage = () => {
                 <span className="visually-hidden">+</span>
               </button>
             </div>
-            <Channels
-              currentChannels={currentChannels}
-              activeChannelId={activeChannelId}
-            />
+            <Channels />
           </div>
           <div className="col p-0 h-100">
             <div className="d-flex flex-column h-100">
-              <ChatHeader
-                message={message}
-                activeChannelId={activeChannelId}
-                currentChannels={currentChannels}
-              />
-              <Messages message={message} activeChannelId={activeChannelId} />
-              <MessageForm activeChannelId={activeChannelId} />
+              <ChatHeader />
+              <Messages />
+              <MessageForm />
             </div>
           </div>
         </div>

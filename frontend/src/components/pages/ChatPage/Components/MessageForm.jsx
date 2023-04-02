@@ -2,14 +2,20 @@ import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import leoProfanity from 'leo-profanity';
 import { useSocket } from '../../../../hooks/index';
 
-const MessageForm = ({ activeChannelId }) => {
+const MessageForm = () => {
   const inputRef = useRef();
   const { t } = useTranslation();
   const socket = useSocket();
+  const activeChannelId = useSelector((state) => {
+    const { currentChannelId } = state.currentChannelId;
+    return currentChannelId;
+  });
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);

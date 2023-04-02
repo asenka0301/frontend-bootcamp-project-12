@@ -16,7 +16,6 @@ const ModalRenameChannel = (props) => {
   const channels = useSelector(channelsSelectors.selectAll);
   const id = useSelector((state) => state.modals.id);
   const currentChannelName = channels.find((channel) => channel.id === id).name;
-  console.log(currentChannelName);
 
   useEffect(() => {
     inputRef.current.focus();

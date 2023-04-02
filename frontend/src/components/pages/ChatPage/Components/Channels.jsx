@@ -7,7 +7,6 @@ import { actions as currentChannelIdActions } from '../../../../slices/currentCh
 
 const Channels = () => {
   const dispatch = useDispatch();
-
   const channels = useSelector(channelsSelectors.selectAll);
   const activeChannelId = useSelector((state) => {
     const { currentChannelId } = state.currentChannelId;
