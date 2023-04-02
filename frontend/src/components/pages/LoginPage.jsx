@@ -1,9 +1,4 @@
-import {
-  React,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
@@ -20,10 +15,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState(false);
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -82,6 +73,7 @@ const LoginPage = () => {
                 value={formik.values.username}
                 isInvalid={authFailed}
                 ref={inputRef}
+                autoFocus
               />
               <Form.Label htmlFor="username">{t('nickname')}</Form.Label>
             </Form.Group>

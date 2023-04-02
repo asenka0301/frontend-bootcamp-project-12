@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -15,10 +15,6 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [isUserExists, setIsUserExists] = useState(false);
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -83,8 +79,11 @@ const SignUpPage = () => {
                 autoComplete="username"
                 onChange={formik.handleChange}
                 value={formik.values.username}
-                isInvalid={formik.touched.username && formik.errors.username}
+                isInvalid={(formik.touched.username && formik.errors.username) || isUserExists}
+                onBlur={formik.handleBlur}
                 ref={inputRef}
+                required
+                autoFocus
               />
               <Form.Label htmlFor="username">{t('username')}</Form.Label>
               <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
@@ -95,10 +94,12 @@ const SignUpPage = () => {
                 id="password"
                 name="password"
                 placeholder="password"
-                autoComplete="current-password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                isInvalid={(formik.touched.password && formik.errors.password)}
+                isInvalid={(formik.touched.password && formik.errors.password) || isUserExists}
+                onBlur={formik.handleBlur}
+                autoComplete="password"
+                required
               />
               <Form.Label htmlFor="password">{t('password')}</Form.Label>
               <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
@@ -109,11 +110,13 @@ const SignUpPage = () => {
                 id="passwordConfirmation"
                 name="passwordConfirmation"
                 placeholder="passwordConfirmation"
-                autoComplete="current-password"
                 onChange={formik.handleChange}
                 value={formik.values.passwordConfirmation}
-                isInvalid={isUserExists
-                  || (formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
+                isInvalid={(formik.touched.passwordConfirmation
+                  && formik.errors.passwordConfirmation) || isUserExists}
+                onBlur={formik.handleBlur}
+                autoComplete="current-password"
+                required
               />
               <Form.Label htmlFor="passwordConfirmation">{t('passwordConfirmation')}</Form.Label>
               <Form.Control.Feedback type="invalid">{isUserExists ? `${t('userExistsMessage')}` : formik.errors.passwordConfirmation}</Form.Control.Feedback>
