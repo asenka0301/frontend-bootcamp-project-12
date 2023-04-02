@@ -10,7 +10,6 @@ import Messages from './Components/Messages';
 import Channels from './Components/Channels';
 import MainModal from '../../modals/MainModal';
 import { useAuth } from '../../../hooks/index';
-
 import { actions as channelsActions, selectors as channelsSelectors } from '../../../slices/channelsSlice';
 import { actions as messagesActions, selectors as messagesSelectors } from '../../../slices/messagesSlice';
 import { actions as currentChannelIdActions } from '../../../slices/currentChannelSlice';
@@ -33,9 +32,6 @@ const ChatPage = () => {
     dispatch(openModal({ modalType: 'addChannel' }));
   };
 
-  const statee = useSelector((state) => console.log(state));
-  console.log(statee);
-
   useEffect(() => {
     const fetchContent = async () => {
       try {
@@ -47,6 +43,8 @@ const ChatPage = () => {
           dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
         }
       } catch (errors) {
+        const { status } = errors.response;
+        if (status === 401) auth.logOut();
         console.log(errors);
       }
     };
