@@ -44,7 +44,6 @@ const App = () => {
           const { status, data } = response;
           if (status === 'ok') {
             dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
-            console.log(data.id);
             return data;
           }
         });
