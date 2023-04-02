@@ -1,5 +1,5 @@
 import React from 'react';
-import chatLogo from '../Images/chat-logo.svg';
+import chatLogo from '../images/chat-logo.svg';
 
 const Img = () => (
   <div className="imgContainer">

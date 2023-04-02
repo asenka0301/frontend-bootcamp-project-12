@@ -6,7 +6,7 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import leoProfanity from 'leo-profanity';
 import { useDispatch } from 'react-redux';
 import AuthProvider from './context/AuthProvider';
-import MainContent from './MainContent';
+import MainContent from './components/AppRouter';
 import { actions as messagesActions } from './slices/messagesSlice';
 import { actions as channelsActions } from './slices/channelsSlice';
 import { actions as currentChannelIdActions } from './slices/currentChannelSlice';

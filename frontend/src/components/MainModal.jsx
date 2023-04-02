@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import modals from './index';
-import { closeModal } from '../../slices/modalsSlice';
+import modals from './modals/index';
+import { closeModal } from '../slices/modalsSlice';
 
 const MainModal = () => {
   const isModalOpen = useSelector((state) => state.modals.isOpen);

@@ -6,13 +6,13 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import Nav from './components/Nav';
-import ChatPage from './components/pages/ChatPage/ChatPage';
-import LoginPage from './components/pages/LoginPage';
-import NotFoundPage from './components/pages/NotFoundPage';
-import SignUpPage from './components/pages/SignUpPage';
-import { useAuth } from './hooks';
-import routes from './routes';
+import Nav from './Nav';
+import ChatPage from './pages/ChatPage/ChatPage';
+import LoginPage from './pages/LoginPage';
+import NotFoundPage from './pages/NotFoundPage';
+import SignUpPage from './pages/SignUpPage';
+import { useAuth } from '../hooks';
+import routes from '../routes';
 
 const ChatRoute = ({ children }) => {
   const auth = useAuth();
@@ -21,7 +21,7 @@ const ChatRoute = ({ children }) => {
   );
 };
 
-const MainContent = () => (
+const AppRouter = () => (
   <BrowserRouter>
     <Nav />
     <Routes>
@@ -41,4 +41,4 @@ const MainContent = () => (
   </BrowserRouter>
 );
 
-export default MainContent;
+export default AppRouter;
