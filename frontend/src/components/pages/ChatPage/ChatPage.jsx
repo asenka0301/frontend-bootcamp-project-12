@@ -24,12 +24,6 @@ const ChatPage = () => {
     dispatch(openModal({ modalType: 'addChannel' }));
   };
 
-  // const currentmessages = useSelector(messagesSelectors.selectAll);
-  // const activeChannelId = useSelector((state) => {
-  //   const { currentChannelId } = state.currentChannelId;
-  //   return currentChannelId;
-  // });
-
   useEffect(() => {
     const fetchContent = async () => {
       try {
@@ -48,12 +42,6 @@ const ChatPage = () => {
     };
     fetchContent();
   }, [dispatch, auth]);
-
-  // useEffect(() => {
-  //   const container = document.getElementById('messages-box');
-  //   container.scrollTo(container.scrollHeight, 0, 0); // = container.scrollHeight;
-  //   console.log('scroll part: ', container.scrollHeight);
-  // }, [currentmessages, activeChannelId]);
 
   return (
     <>
