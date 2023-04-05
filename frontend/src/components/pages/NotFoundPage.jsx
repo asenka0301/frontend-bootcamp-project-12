@@ -1,13 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const NotFound = () => (
-  <div className="container h-100 w-50 d-flex flex-column justify-content-center align-items-center bg-white">
-    <h1 className="h1">Ошибка 404</h1>
-    <p className="text-center">
-      Кажется что-то пошло не так! Страница, которую вы запрашиваете, не существует.
-      Возможно она устарела, была удалена или неверный адрес в адресной строке.
-    </p>
-  </div>
-);
+const NotFound = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="container h-100 w-50 d-flex flex-column justify-content-center align-items-center bg-white">
+      <h1 className="h1">{t('NotFoundError')}</h1>
+      <p className="text-center">{t('NotFoundErrorMessage')}</p>
+    </div>
+  );
+};
 
 export default NotFound;
