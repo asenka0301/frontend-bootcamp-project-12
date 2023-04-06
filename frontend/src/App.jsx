@@ -17,7 +17,8 @@ const rollbarConfig = {
 };
 
 const App = () => {
-  leoProfanity.loadDictionary('ru');
+  const ruDictionary = leoProfanity.getDictionary('ru');
+  leoProfanity.loadDictionary(ruDictionary);
   const socket = io();
   const dispatch = useDispatch();
 
