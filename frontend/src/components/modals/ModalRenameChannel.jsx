@@ -47,7 +47,7 @@ const ModalRenameChannel = (props) => {
         <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit} disabled={!formik.isValid}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="form-floating mb-3">
             <Form.Control
               name="name"
@@ -56,6 +56,7 @@ const ModalRenameChannel = (props) => {
               onChange={formik.handleChange}
               value={formik.values.name}
               onFocus={() => inputRef.current.select()}
+              disabled={formik.isSubmitting}
               isInvalid={formik.touched.name && formik.errors.name}
             />
             <Form.Label htmlFor="name">{t('channelName')}</Form.Label>
@@ -65,7 +66,7 @@ const ModalRenameChannel = (props) => {
             <Button variant="secondary" className="me-2" onClick={handleClose}>
               {t('cancelButton')}
             </Button>
-            <Button type="submit" variant="primary">{t('sendButton')}</Button>
+            <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('sendButton')}</Button>
           </div>
         </Form>
       </Modal.Body>

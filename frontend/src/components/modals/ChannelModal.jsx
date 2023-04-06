@@ -58,6 +58,7 @@ const ChannelModal = (props) => {
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.name}
+              disabled={formik.isSubmitting}
               isInvalid={formik.touched.name && formik.errors.name}
             />
             <Form.Label htmlFor="name">{t('channelName')}</Form.Label>
@@ -65,7 +66,7 @@ const ChannelModal = (props) => {
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button variant="secondary" className="me-2" onClick={handleClose}>{t('cancelButton')}</Button>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
               {t('sendButton')}
             </Button>
           </div>
