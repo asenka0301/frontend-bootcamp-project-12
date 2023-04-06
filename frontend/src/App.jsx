@@ -37,28 +37,27 @@ const App = () => {
   const socketApi = useMemo(() => (
     {
       sendMessage: (data) => socket.emit('newMessage', data),
-      addChannel: (name) => {
+      addChannel: (name, callback) => {
         // eslint-disable-next-line consistent-return
         socket.emit('newChannel', { name }, (response) => {
           const { status, data } = response;
           if (status === 'ok') {
-            dispatch(channelsActions.setCurrentChannelId(data.id));
-            return data;
+            callback(data.id);
           }
         });
       },
-      deleteChannel: (id) => {
+      deleteChannel: (id, callback) => {
         socket.emit('removeChannel', { id }, (response) => {
           const { status } = response;
           if (status === 'ok') {
-            dispatch(channelsActions.removeChannel(id));
+            callback();
           }
         });
       },
       renameChannel: ({ id, name }) => {
         socket.emit('renameChannel', { id, name });
       },
-    }), [dispatch, socket]);
+    }), [socket]);
 
   return (
     <RollbarProvider config={rollbarConfig}>

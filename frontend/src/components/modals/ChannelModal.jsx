@@ -3,10 +3,10 @@ import * as Yup from 'yup';
 import React, { useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Form, Modal, Button } from 'react-bootstrap';
-import { selectors as channelsSelectors } from '../../slices/channelsSlice';
+import { actions as channelsActions, selectors as channelsSelectors } from '../../slices/channelsSlice';
 import { useSocket } from '../../hooks/index';
 
 const ChannelModal = (props) => {
@@ -14,7 +14,14 @@ const ChannelModal = (props) => {
   const socket = useSocket();
   const { t } = useTranslation();
   const inputRef = useRef();
+  const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+
+  const handleChannelModal = (id) => {
+    dispatch(channelsActions.setCurrentChannelId(id));
+    toast.success(`${t('channelCreated')}`);
+    handleClose();
+  };
 
   useEffect(() => {
     inputRef.current.focus();
@@ -35,9 +42,7 @@ const ChannelModal = (props) => {
     onSubmit: (values) => {
       const { name } = values;
       try {
-        socket.addChannel(name);
-        toast.success(`${t('channelCreated')}`);
-        handleClose();
+        socket.addChannel(name, handleChannelModal);
       } catch (errors) {
         console.log(errors);
       }

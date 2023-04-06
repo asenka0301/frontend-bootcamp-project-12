@@ -12,20 +12,16 @@ const ModalDeleteChannel = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.channels;
-    return currentChannelId;
-  });
-
   const id = useSelector((state) => state.modals.id);
 
-  const deleteChannel = () => {
-    socket.deleteChannel(id);
+  const handleModalDeleteChannel = () => {
+    dispatch(channelsActions.removeChannel(id));
     toast.success(`${t('channelDeleted')}`);
-    if (id === activeChannelId) {
-      dispatch(channelsActions.setCurrentChannelId(1));
-    }
     handleClose();
+  };
+
+  const deleteChannel = () => {
+    socket.deleteChannel(id, handleModalDeleteChannel);
   };
 
   return (
