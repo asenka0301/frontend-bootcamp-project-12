@@ -12,7 +12,6 @@ import MainModal from '../../MainModal';
 import { useAuth } from '../../../hooks/index';
 import { actions as channelsActions } from '../../../slices/channelsSlice';
 import { actions as messagesActions } from '../../../slices/messagesSlice';
-import { actions as currentChannelIdActions } from '../../../slices/currentChannelSlice';
 import { openModal } from '../../../slices/modalsSlice';
 
 const ChatPage = () => {
@@ -29,10 +28,9 @@ const ChatPage = () => {
       try {
         const response = await axios.get(routes.usersPath(), { headers: auth.getAuthHeader() });
         if (response.status === 200) {
-          const { channels, messages, currentChannelId } = response.data;
+          const { channels, messages } = response.data;
           dispatch(channelsActions.addChannels(channels));
           dispatch(messagesActions.addMessages(messages));
-          dispatch(currentChannelIdActions.setCurrentChannelId(currentChannelId));
         }
       } catch (errors) {
         const { status } = errors.response;

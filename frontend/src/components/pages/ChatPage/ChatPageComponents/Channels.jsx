@@ -2,19 +2,18 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import DropdownChannel from './DropdownChannel';
-import { selectors as channelsSelectors } from '../../../../slices/channelsSlice';
-import { actions as currentChannelIdActions } from '../../../../slices/currentChannelSlice';
+import { actions as channelsActions, selectors as channelsSelectors } from '../../../../slices/channelsSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.currentChannelId;
+    const { currentChannelId } = state.channels;
     return currentChannelId;
   });
 
   const handleClick = (id) => {
-    dispatch(currentChannelIdActions.setCurrentChannelId(id));
+    dispatch(channelsActions.setCurrentChannelId(id));
   };
 
   return (

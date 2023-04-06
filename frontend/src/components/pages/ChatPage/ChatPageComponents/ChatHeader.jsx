@@ -9,7 +9,7 @@ const ChatHeader = () => {
   const messages = useSelector(messagesSelectors.selectAll);
   const channels = useSelector(channelsSelectors.selectAll);
   const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.currentChannelId;
+    const { currentChannelId } = state.channels;
     return currentChannelId;
   });
   const numberOfMessages = messages.filter((item) => item.channelId === activeChannelId).length;

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Modal, Button } from 'react-bootstrap';
 import { useSocket } from '../../hooks/index';
-import { actions as currentChannelIdActions } from '../../slices/currentChannelSlice';
+import { actions as channelsActions } from '../../slices/channelsSlice';
 
 const ModalDeleteChannel = (props) => {
   const { handleClose } = props;
@@ -13,7 +13,7 @@ const ModalDeleteChannel = (props) => {
   const { t } = useTranslation();
 
   const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.currentChannelId;
+    const { currentChannelId } = state.channels;
     return currentChannelId;
   });
 
@@ -23,7 +23,7 @@ const ModalDeleteChannel = (props) => {
     socket.deleteChannel(id);
     toast.success(`${t('channelDeleted')}`);
     if (id === activeChannelId) {
-      dispatch(currentChannelIdActions.setCurrentChannelId(1));
+      dispatch(channelsActions.setCurrentChannelId(1));
     }
     handleClose();
   };

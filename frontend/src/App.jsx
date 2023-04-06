@@ -9,7 +9,6 @@ import AuthProvider from './context/AuthProvider';
 import MainContent from './components/AppRouter';
 import { actions as messagesActions } from './slices/messagesSlice';
 import { actions as channelsActions } from './slices/channelsSlice';
-import { actions as currentChannelIdActions } from './slices/currentChannelSlice';
 import { SocketContext } from './context/context';
 
 const rollbarConfig = {
@@ -43,7 +42,7 @@ const App = () => {
         socket.emit('newChannel', { name }, (response) => {
           const { status, data } = response;
           if (status === 'ok') {
-            dispatch(currentChannelIdActions.setCurrentChannelId(data.id));
+            dispatch(channelsActions.setCurrentChannelId(data.id));
             return data;
           }
         });

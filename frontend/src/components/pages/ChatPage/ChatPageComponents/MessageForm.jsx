@@ -12,7 +12,7 @@ const MessageForm = () => {
   const { t } = useTranslation();
   const socket = useSocket();
   const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.currentChannelId;
+    const { currentChannelId } = state.channels;
     return currentChannelId;
   });
 
@@ -34,7 +34,6 @@ const MessageForm = () => {
         channelId: activeChannelId,
         userName: JSON.parse(localStorage.getItem('userData')).username,
       };
-      console.log(message);
       try {
         await socket.sendMessage(message);
         // eslint-disable-next-line no-param-reassign

@@ -6,7 +6,7 @@ const Messages = () => {
   const MessageEndRef = useRef(null);
   const messages = useSelector(messagesSelectors.selectAll);
   const activeChannelId = useSelector((state) => {
-    const { currentChannelId } = state.currentChannelId;
+    const { currentChannelId } = state.channels;
     return currentChannelId;
   });
 
