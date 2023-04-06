@@ -42,8 +42,7 @@ const SignUpPage = () => {
         const response = await axios
           .post(routes.signUpPath(), { username: values.username, password: values.password });
         if (response.status === 201) {
-          localStorage.setItem('userData', JSON.stringify(response.data));
-          auth.logIn();
+          auth.logIn(response.data);
           navigate('/');
         }
       } catch (errors) {

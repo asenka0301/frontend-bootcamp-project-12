@@ -13,7 +13,8 @@ const AuthProvider = ({ children }) => {
 
   const [loggedIn, setLoggedIn] = useState(initialState);
 
-  const logIn = useCallback(() => {
+  const logIn = useCallback((data) => {
+    localStorage.setItem('userData', JSON.stringify(data));
     setLoggedIn(true);
   }, []);
 

@@ -37,8 +37,7 @@ const LoginPage = () => {
       try {
         const response = await axios.post(routes.loginPath(), values);
         if (response.status === 200) {
-          localStorage.setItem('userData', JSON.stringify(response.data));
-          auth.logIn();
+          auth.logIn(response.data);
           navigate('/');
         }
       } catch (errors) {
