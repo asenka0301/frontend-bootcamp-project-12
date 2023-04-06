@@ -28,9 +28,10 @@ const ChatPage = () => {
       try {
         const response = await axios.get(routes.usersPath(), { headers: auth.getAuthHeader() });
         if (response.status === 200) {
-          const { channels, messages } = response.data;
+          const { channels, messages, currentChannelId } = response.data;
           dispatch(channelsActions.addChannels(channels));
           dispatch(messagesActions.addMessages(messages));
+          dispatch(channelsActions.setCurrentChannelId(currentChannelId));
         }
       } catch (errors) {
         const { status } = errors.response;
